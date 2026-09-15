@@ -1,0 +1,70 @@
+#=========================================================================#
+# VPN Static Site Template with API Proxy                                 #
+#=========================================================================#
+
+server {
+        listen      %ip%:%proxy_ssl_port% ssl;
+        server_name %domain_idn% %alias_idn%;
+        error_log   /var/log/%web_system%/domains/%domain%.error.log error;
+
+        ssl_certificate     %ssl_pem%;
+        ssl_certificate_key %ssl_key%;
+        ssl_stapling        on;
+        ssl_stapling_verify on;
+
+        # TLS 1.3 0-RTT anti-replay
+        if ($anti_replay = 307) { return 307 https://$host$request_uri; }
+        if ($anti_replay = 425) { return 425; }
+
+        include %home%/%user%/conf/web/%domain%/nginx.hsts.conf*;
+
+        location ~ /\.(?!well-known\/|file) {
+                deny all;
+                return 404;
+        }
+
+        # API proxy to backend
+        location /api/ {
+            proxy_pass http://127.0.0.1:8000;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            
+            # CORS headers
+            add_header 'Access-Control-Allow-Origin' '*' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,X-Bot-Token' always;
+            
+            if ($request_method = 'OPTIONS') {
+                return 204;
+            }
+        }
+
+        # Webhook proxy
+        location /webhook/ {
+            proxy_pass http://127.0.0.1:8000;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # Static files
+        location / {
+            root       %sdocroot%;
+            index      index.html;
+            try_files  $uri $uri/ /index.html;
+            
+            access_log /var/log/%web_system%/domains/%domain%.log combined;
+            access_log /var/log/%web_system%/domains/%domain%.bytes bytes;
+        }
+
+        location /error/ {
+                alias %home%/%user%/web/%domain%/document_errors/;
+        }
+
+        include %home%/%user%/conf/web/%domain%/nginx.ssl.conf_*;
+}

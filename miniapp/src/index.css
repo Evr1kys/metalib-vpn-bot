@@ -1,0 +1,360 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* MetaLib VPN Design System - Matching Website */
+:root {
+  /* Primary Colors */
+  --primary: #6366f1;
+  --primary-light: #818cf8;
+  --secondary: #8b5cf6;
+  --accent: #06b6d4;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  
+  /* Backgrounds */
+  --bg: #030014;
+  --bg-secondary: #0f0a1f;
+  --surface: rgba(15, 10, 31, 0.8);
+  --surface-light: rgba(99, 102, 241, 0.1);
+  
+  /* Borders */
+  --border: rgba(99, 102, 241, 0.2);
+  --border-light: rgba(255, 255, 255, 0.1);
+  
+  /* Text */
+  --text: #f8fafc;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  
+  /* Effects */
+  --glow: 0 0 60px rgba(99, 102, 241, 0.4);
+  --glow-sm: 0 0 30px rgba(99, 102, 241, 0.3);
+  
+  /* Telegram theme defaults */
+  --tg-theme-bg-color: var(--bg);
+  --tg-theme-text-color: var(--text);
+  --tg-theme-hint-color: var(--text-secondary);
+  --tg-theme-link-color: var(--primary);
+  --tg-theme-button-color: var(--primary);
+  --tg-theme-button-text-color: #ffffff;
+  --tg-theme-secondary-bg-color: var(--bg-secondary);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Animated Background - Like Website */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(6, 182, 212, 0.1), transparent),
+    var(--bg);
+  pointer-events: none;
+}
+
+/* Telegram theme integration */
+body.tg-theme-light {
+  --bg: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --border: rgba(99, 102, 241, 0.3);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: var(--glow-sm); }
+  50% { box-shadow: var(--glow); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* Gradient backgrounds - Matching Website */
+.gradient-purple {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.gradient-blue {
+  background: linear-gradient(135deg, #4facfe 0%, var(--accent) 100%);
+}
+
+.gradient-green {
+  background: linear-gradient(135deg, var(--success) 0%, #38f9d7 100%);
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.gradient-border {
+  background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+              linear-gradient(135deg, var(--primary), var(--secondary), var(--accent)) border-box;
+  border: 2px solid transparent;
+}
+
+/* Glass effect - Like Website */
+.glass {
+  background: rgba(15, 10, 31, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+}
+
+.glass-light {
+  background: rgba(99, 102, 241, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-hover:active {
+  transform: scale(0.98);
+}
+
+.card-hover:hover {
+  border-color: var(--primary);
+  box-shadow: var(--glow-sm);
+}
+
+/* MetaLib Card Style */
+.metalib-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.metalib-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--glow-sm);
+}
+
+/* Safe area padding for iOS */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Button styles - MetaLib Design */
+.btn-primary {
+  @apply font-semibold py-3 px-6 rounded-xl transition-all duration-300;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(99, 102, 241, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  @apply font-medium py-3 px-6 rounded-xl transition-all duration-300;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+  background: var(--surface-light);
+}
+
+/* Input styles - MetaLib Design */
+.input-field {
+  @apply rounded-xl px-4 py-3 transition-all duration-300;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Status badges - MetaLib Design */
+.badge-active {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-inactive {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-pending {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Navigation - MetaLib Design */
+.nav-item {
+  @apply flex flex-col items-center gap-1 py-2 px-4 rounded-xl transition-all duration-300;
+  color: var(--text-muted);
+}
+
+.nav-item:hover, .nav-item.active {
+  color: var(--primary);
+  background: var(--surface-light);
+}
+
+.nav-item.active {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Feature cards with glow */
+.feature-card {
+  @apply rounded-2xl p-5 transition-all duration-300;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.feature-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--glow-sm);
+  transform: translateY(-2px);
+}
+
+/* Subscription card - Premium look */
+.subscription-card {
+  @apply rounded-2xl p-6 relative overflow-hidden;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  border: 1px solid var(--border);
+}
+
+.subscription-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.3), transparent 50%);
+  pointer-events: none;
+}
+
+/* Stats card */
+.stats-card {
+  @apply rounded-xl p-4 text-center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.stats-card-value {
+  @apply text-2xl font-bold;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--surface) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

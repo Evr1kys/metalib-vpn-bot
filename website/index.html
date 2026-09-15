@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0f">
+    
+    <!-- SEO -->
+    <title>MetaLib VPN — Быстрый VPN для России | Обход блокировок</title>
+    <meta name="description" content="MetaLib VPN — надёжный VPN-сервис. Скорость до 1 Гбит/с, обход блокировок, работает в России. Telegram-бот для управления. От 99₽/неделя.">
+    <meta name="keywords" content="VPN, ВПН, VPN для России, обход блокировок, быстрый VPN, MetaLib VPN, VLESS, защита данных, анонимность">
+    <meta name="author" content="MetaLib VPN">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vpn.metalib.xyz/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vpn.metalib.xyz/">
+    <meta property="og:title" content="MetaLib VPN — Быстрый VPN для России">
+    <meta property="og:description" content="Обходи блокировки, защищай данные. Скорость до 1 Гбит/с. От 99₽/неделя.">
+    <meta property="og:image" content="https://vpn.metalib.xyz/og-image.png">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MetaLib VPN — Быстрый VPN для России">
+    <meta name="twitter:description" content="Обходи блокировки, защищай данные. От 99₽/неделя.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M30 50 L45 65 L70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "MetaLib VPN",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "iOS, Android, Windows, macOS, Linux",
+        "offers": {
+            "@type": "Offer",
+            "price": "99",
+            "priceCurrency": "RUB"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "1250"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #030014;
+            --bg-secondary: #0f0a1f;
+            --surface: rgba(15, 10, 31, 0.8);
+            --border: rgba(99, 102, 241, 0.2);
+            --text: #f8fafc;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --glow: 0 0 60px rgba(99, 102, 241, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* === ANIMATED BACKGROUND === */
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.3), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.2), transparent),
+                radial-gradient(ellipse 60% 40% at 0% 100%, rgba(6, 182, 212, 0.15), transparent);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+        .orb-1 {
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%);
+            top: -300px; left: -200px;
+        }
+        .orb-2 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%);
+            bottom: -200px; right: -150px;
+            animation-delay: -8s;
+        }
+        .orb-3 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent 70%);
+            top: 40%; left: 60%;
+            animation-delay: -16s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(80px, -60px) rotate(90deg) scale(1.1); }
+            50% { transform: translate(-40px, 80px) rotate(180deg) scale(0.9); }
+            75% { transform: translate(-80px, -40px) rotate(270deg) scale(1.05); }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: rgba(99, 102, 241, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 20s linear infinite;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            5% { opacity: 1; scale: 1; }
+            95% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px) scale(0.5); opacity: 0; }
+        }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px); }
+        }
+
+        /* Shooting stars */
+        .shooting-stars {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .shooting-star {
+            position: absolute;
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.8), transparent);
+            animation: shoot 3s ease-in-out infinite;
+            opacity: 0;
+        }
+        @keyframes shoot {
+            0% { transform: translateX(-150px) translateY(0); opacity: 0; }
+            5% { opacity: 1; }
+            30% { transform: translateX(calc(100vw + 150px)) translateY(100px); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* === HEADER === */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(3, 0, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        header.scrolled {
+            padding: 12px 0;
+            background: rgba(3, 0, 20, 0.95);
+        }
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        .logo-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2));
+        }
+        .logo-icon svg { width: 26px; height: 26px; stroke: white; fill: none; stroke-width: 2.5; position: relative; }
+        
+        nav { display: flex; align-items: center; gap: 40px; }
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        nav a:hover { color: var(--text); }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+        
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white !important;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+        }
+        .nav-cta::after { display: none; }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        /* === HERO === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 24px 80px;
+            position: relative;
+        }
+        .hero-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .hero-content { max-width: 600px; }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-bottom: 28px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--success);
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+        .badge-dot {
+            width: 8px; height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes dotPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 36px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn:hover::before { opacity: 1; }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .btn svg { width: 22px; height: 22px; }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-globe {
+            width: 500px; height: 500px;
+            position: relative;
+        }
+        .globe-sphere {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.4), transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.3), transparent 50%),
+                linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--border);
+            box-shadow: 
+                0 0 80px rgba(99, 102, 241, 0.3),
+                inset 0 0 80px rgba(99, 102, 241, 0.1);
+            animation: globeRotate 30s linear infinite;
+            position: relative;
+        }
+        @keyframes globeRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .globe-ring {
+            position: absolute;
+            inset: -30px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            animation: ringOrbit 20s linear infinite;
+        }
+        .globe-ring:nth-child(2) {
+            inset: -60px;
+            animation-duration: 25s;
+            animation-direction: reverse;
+        }
+        @keyframes ringOrbit {
+            0% { transform: rotateX(70deg) rotateZ(0deg); }
+            100% { transform: rotateX(70deg) rotateZ(360deg); }
+        }
+        .globe-dot {
+            position: absolute;
+            width: 12px; height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--primary);
+            animation: dotFloat 3s ease-in-out infinite;
+        }
+        .globe-dot:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+        .globe-dot:nth-child(2) { top: 40%; right: 20%; animation-delay: 0.5s; }
+        .globe-dot:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 1s; }
+        .globe-dot:nth-child(4) { top: 60%; left: 60%; animation-delay: 1.5s; }
+        @keyframes dotFloat {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        /* Stats */
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 56px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+        .stat { text-align: left; }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* === FEATURES === */
+        .features {
+            padding: 120px 24px;
+            position: relative;
+        }
+        .section-inner { max-width: 1280px; margin: 0 auto; }
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+        }
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 36px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+        }
+        .feature-card:hover::before { transform: scaleX(1); }
+
+        .feature-icon {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover .feature-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+        .feature-icon svg {
+            width: 28px; height: 28px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 2;
+            transition: stroke 0.3s;
+        }
+        .feature-card:hover .feature-icon svg { stroke: white; }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* === PRICING === */
+        .pricing {
+            padding: 120px 24px;
+            background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.03), transparent);
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .price-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 44px 36px;
+            text-align: center;
+            transition: all 0.4s;
+            position: relative;
+        }
+        .price-card.popular {
+            border-color: var(--primary);
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.1), var(--surface));
+            transform: scale(1.05);
+        }
+        .price-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 64px rgba(99, 102, 241, 0.2);
+        }
+        .price-card.popular:hover { transform: scale(1.05) translateY(-8px); }
+        
+        .popular-badge {
+            position: absolute;
+            top: -16px; left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+        .price-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+        .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 24px 0;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 8px;
+        }
+        .price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .price-features {
+            list-style: none;
+            margin: 32px 0;
+            text-align: left;
+        }
+        .price-features li {
+            padding: 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        .price-features li:last-child { border-bottom: none; }
+        .price-features li svg {
+            width: 20px; height: 20px;
+            stroke: var(--success);
+            fill: none;
+            stroke-width: 2.5;
+            flex-shrink: 0;
+        }
+        .price-card .btn { width: 100%; margin-top: 8px; }
+
+        /* === HOW IT WORKS === */
+        .how-it-works { padding: 120px 24px; }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 12%;
+            right: 12%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.3;
+        }
+        .step {
+            text-align: center;
+            position: relative;
+        }
+        .step-number {
+            width: 100px; height: 100px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .step:hover .step-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+        }
+        .step h4 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* === CTA === */
+        .cta {
+            padding: 120px 24px;
+            text-align: center;
+        }
+        .cta-box {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 36px;
+            padding: 80px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -100%; left: -100%;
+            width: 300%; height: 300%;
+            background: conic-gradient(from 0deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            animation: ctaRotate 10s linear infinite;
+        }
+        @keyframes ctaRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .cta-box h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .cta-box p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .cta-box .btn { position: relative; }
+
+        /* === FOOTER === */
+        footer {
+            border-top: 1px solid var(--border);
+            background: rgba(3, 0, 20, 0.6);
+        }
+        .footer-main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 24px 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+        }
+        .footer-brand {
+            max-width: 300px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .footer-logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-logo-icon svg { width: 24px; height: 24px; stroke: white; fill: none; }
+        .footer-logo-text { font-size: 1.3rem; font-weight: 800; }
+        .footer-logo-text span { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .footer-column h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        .footer-column a:hover { color: var(--primary-light); }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .footer-social a {
+            width: 44px; height: 44px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        .footer-social a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .footer-social svg { width: 20px; height: 20px; }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding: 24px;
+        }
+        .footer-bottom-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .footer-legal {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-legal a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .footer-legal a:hover { color: var(--text-secondary); }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1024px) {
+            .hero-inner { grid-template-columns: 1fr; text-align: center; }
+            .hero-content { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero-visual { display: none; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+            .price-card.popular { transform: scale(1); }
+            .steps { grid-template-columns: repeat(2, 1fr); }
+            .steps::before { display: none; }
+            .footer-main { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero h1 { font-size: 2.2rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+            .steps { grid-template-columns: 1fr; }
+            .hero-stats { flex-direction: column; gap: 24px; align-items: center; }
+            .cta-box { padding: 48px 24px; }
+            .cta-box h2 { font-size: 2rem; }
+            .footer-main { grid-template-columns: 1fr; text-align: center; }
+            .footer-brand { max-width: 100%; margin: 0 auto; }
+            .footer-logo { justify-content: center; }
+            .footer-social { justify-content: center; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .footer-legal { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="gradient-bg"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
+    <div class="shooting-stars" id="shootingStars"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                MetaLib VPN
+            </a>
+            <nav>
+                <a href="#features">Возможности</a>
+                <a href="#pricing">Тарифы</a>
+                <a href="#how">Как начать</a>
+                <a href="/faq">FAQ</a>
+                <a href="/dashboard" class="nav-cta">Личный кабинет</a>
+            </nav>
+            <button class="mobile-menu-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    Работает в России
+                </div>
+                <h1>Свобода интернета с <span class="gradient-text">MetaLib VPN</span></h1>
+                <p>Обходи блокировки, защищай свои данные и получай доступ к любым сайтам. Скорость до 1 Гбит/с, простая настройка за 30 секунд.</p>
+                <div class="hero-buttons">
+                    <a href="https://t.me/metalibvpn_bot?start=buy" class="btn btn-primary" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+                        Подключить VPN
+                    </a>
+                    <a href="#pricing" class="btn btn-outline">Смотреть тарифы</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="speedStat">1000+</div>
+                        <div class="stat-label">Мбит/с скорость</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Аптайм серверов</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="usersStat">5000+</div>
+                        <div class="stat-label">Пользователей</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-globe">
+                    <div class="globe-sphere">
+                        <div class="globe-dot"></div>
+                        <div class="globe-dot"></div>
+                        <div class="globe-dot"></div>
+                        <div class="globe-dot"></div>
+                    </div>
+                    <div class="globe-ring"></div>
+                    <div class="globe-ring"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2>Почему <span class="gradient-text">MetaLib VPN</span>?</h2>
+                <p>Передовые технологии для безопасного и быстрого интернета</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <h3>Максимальная скорость</h3>
+                    <p>Серверы с каналом до 10 Гбит/с. Смотрите 4K без буферизации, играйте без лагов.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </div>
+                    <h3>Военное шифрование</h3>
+                    <p>Протокол VLESS с AES-256. Ваш трафик невозможно перехватить или расшифровать.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                    </div>
+                    <h3>Обход любых блокировок</h3>
+                    <p>Доступ к заблокированным сайтам и сервисам. Работает даже при жёстких ограничениях.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                    </div>
+                    <h3>Все платформы</h3>
+                    <p>iOS, Android, Windows, macOS, Linux. Один ключ работает везде.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                    </div>
+                    <h3>Нулевые логи</h3>
+                    <p>Мы не храним данные о вашей активности. Полная анонимность гарантирована.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <h3>Telegram-бот 24/7</h3>
+                    <p>Покупка, настройка и поддержка прямо в мессенджере. Мгновенные ответы.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2>Простые <span class="gradient-text">тарифы</span></h2>
+                <p>Никаких скрытых платежей. Выберите подходящий план.</p>
+            </div>
+            <div class="pricing-grid" id="pricingGrid">
+                <div class="price-card">
+                    <h3>Неделя</h3>
+                    <div class="price">99₽ <span>/ 7 дней</span></div>
+                    <ul class="price-features">
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Безлимитный трафик</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Скорость до 1 Гбит/с</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Все устройства</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Поддержка 24/7</li>
+                    </ul>
+                    <a href="https://t.me/metalibvpn_bot?start=buy_week" class="btn btn-outline" target="_blank">Выбрать</a>
+                </div>
+                <div class="price-card popular">
+                    <div class="popular-badge">Популярный</div>
+                    <h3>Месяц</h3>
+                    <div class="price">249₽ <span>/ 30 дней</span></div>
+                    <ul class="price-features">
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Безлимитный трафик</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Скорость до 1 Гбит/с</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Все устройства</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Поддержка 24/7</li>
+                    </ul>
+                    <a href="https://t.me/metalibvpn_bot?start=buy_month" class="btn btn-primary" target="_blank">Выбрать</a>
+                </div>
+                <div class="price-card">
+                    <h3>Год</h3>
+                    <div class="price">1990₽ <span>/ 365 дней</span></div>
+                    <ul class="price-features">
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Безлимитный трафик</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Скорость до 1 Гбит/с</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Все устройства</li>
+                        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Поддержка 24/7</li>
+                    </ul>
+                    <a href="https://t.me/metalibvpn_bot?start=buy_year" class="btn btn-outline" target="_blank">Выбрать</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works" id="how">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2>Как <span class="gradient-text">начать</span>?</h2>
+                <p>Подключение занимает всего 30 секунд</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Откройте бота</h4>
+                    <p>Перейдите в @metalibvpn_bot в Telegram</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Выберите тариф</h4>
+                    <p>Оплатите удобным способом</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Получите ключ</h4>
+                    <p>Скопируйте или отсканируйте QR</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Подключитесь</h4>
+                    <p>Вставьте ключ в приложение</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-box">
+            <h2>Готов к свободному интернету?</h2>
+            <p>Присоединяйся к тысячам пользователей MetaLib VPN</p>
+            <a href="https://t.me/metalibvpn_bot?start=buy" class="btn btn-primary" target="_blank">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+                Подключить в Telegram
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-main">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="footer-logo-text">Meta<span>Lib</span></div>
+                </a>
+                <p>Быстрый и надёжный VPN-сервис для России. Обходите блокировки, защищайте данные, оставайтесь анонимными.</p>
+                <div class="footer-social">
+                    <a href="https://t.me/metalibvpn_bot" target="_blank" title="Telegram Bot">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+                    </a>
+                    <a href="https://t.me/metalib_vpn" target="_blank" title="Telegram Channel">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Навигация</h4>
+                <ul>
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/pricing">Тарифы</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="https://t.me/metalibvpn_bot" target="_blank">Написать в бот</a></li>
+                    <li><a href="https://t.me/metalib_vpn" target="_blank">Telegram канал</a></li>
+                    <li><a href="/faq#setup">Инструкции</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Документы</h4>
+                <ul>
+                    <li><a href="/privacy">Конфиденциальность</a></li>
+                    <li><a href="/terms">Условия использования</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <div class="footer-copy">© 2024–2026 MetaLib VPN. Все права защищены.</div>
+                <div class="footer-legal">
+                    <a href="/privacy">Политика конфиденциальности</a>
+                    <a href="/terms">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Create particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 60; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = (15 + Math.random() * 15) + 's';
+            particlesContainer.appendChild(p);
+        }
+
+        // Create shooting stars
+        const starsContainer = document.getElementById('shootingStars');
+        for (let i = 0; i < 5; i++) {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.top = (Math.random() * 50) + '%';
+            star.style.animationDelay = (i * 2 + Math.random() * 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Load plans from API
+        async function loadPlans() {
+            try {
+                const res = await fetch('/api/v1/website/plans');
+                if (res.ok) {
+                    const plans = await res.json();
+                    console.log('Plans loaded:', plans);
+                }
+            } catch (e) {
+                console.log('Using default plans');
+            }
+        }
+        loadPlans();
+
+        // Animate stats on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateValue('speedStat', 0, 1000, 2000, '+');
+                    animateValue('usersStat', 0, 5000, 2000, '+');
+                    observer.disconnect();
+                }
+            });
+        });
+        observer.observe(document.querySelector('.hero-stats'));
+
+        function animateValue(id, start, end, duration, suffix = '') {
+            const el = document.getElementById(id);
+            const range = end - start;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + range * eased);
+                el.textContent = current + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+    </script>
+</body>
+</html>

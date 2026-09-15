@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#030014">
+    <title>Личный кабинет — MetaLib VPN</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M30 50 L45 65 L70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #030014;
+            --bg-secondary: #0f0a1f;
+            --surface: rgba(15, 10, 31, 0.8);
+            --border: rgba(99, 102, 241, 0.2);
+            --text: #f8fafc;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --glow: 0 0 60px rgba(99, 102, 241, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.3), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.2), transparent),
+                radial-gradient(ellipse 60% 40% at 0% 100%, rgba(6, 182, 212, 0.15), transparent);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+        .orb-1 { width: 800px; height: 800px; background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%); top: -300px; left: -200px; }
+        .orb-2 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%); bottom: -200px; right: -150px; animation-delay: -8s; }
+        .orb-3 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent 70%); top: 40%; left: 60%; animation-delay: -16s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(80px, -60px) rotate(90deg) scale(1.1); }
+            50% { transform: translate(-40px, 80px) rotate(180deg) scale(0.9); }
+            75% { transform: translate(-80px, -40px) rotate(270deg) scale(1.05); }
+        }
+
+        .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        .particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: rgba(99, 102, 241, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 20s linear infinite;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            5% { opacity: 1; scale: 1; }
+            95% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px) scale(0.5); opacity: 0; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(3, 0, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        .logo-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow);
+        }
+        .logo-icon svg { width: 26px; height: 26px; stroke: white; fill: none; stroke-width: 2.5; }
+        
+        nav { display: flex; align-items: center; gap: 32px; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: var(--text); }
+
+        .user-menu { display: none; align-items: center; gap: 16px; }
+        .user-menu.active { display: flex; }
+        .user-avatar {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            overflow: hidden;
+        }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+        .user-name { font-weight: 600; }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            transition: color 0.3s;
+        }
+        .logout-btn:hover { color: var(--danger); }
+        .logout-btn svg { width: 20px; height: 20px; }
+        
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white !important;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+        }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5); }
+
+        main {
+            padding: 120px 24px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .page-header { text-align: center; margin-bottom: 48px; }
+        .page-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 12px; }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        /* Auth Screen */
+        .auth-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+        .auth-screen.hidden { display: none; }
+
+        .auth-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 60px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .auth-icon {
+            width: 100px; height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            box-shadow: var(--glow);
+            animation: authIconFloat 4s ease-in-out infinite;
+        }
+        .auth-icon svg { width: 50px; height: 50px; stroke: white; fill: none; stroke-width: 1.5; }
+        @keyframes authIconFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .auth-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; }
+        .auth-desc { color: var(--text-secondary); margin-bottom: 40px; line-height: 1.7; }
+
+        .auth-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            width: 100%;
+            padding: 18px 36px;
+            background: linear-gradient(135deg, #0088cc, #00a8e8);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 32px rgba(0, 136, 204, 0.4);
+        }
+        .auth-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0, 136, 204, 0.5); }
+        .auth-btn svg { width: 26px; height: 26px; fill: currentColor; }
+
+        .auth-loading { display: none; flex-direction: column; align-items: center; gap: 20px; padding: 20px 0; }
+        .auth-loading.active { display: flex; }
+        .auth-spinner {
+            width: 56px; height: 56px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .auth-loading-text { color: var(--text-secondary); }
+
+        .auth-footer { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Dashboard */
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 28px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover { transform: translateY(-6px); border-color: var(--primary); box-shadow: 0 16px 48px rgba(99, 102, 241, 0.15); }
+        .card:hover::before { opacity: 1; }
+        .card.full-width { grid-column: 1 / -1; }
+
+        .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .card-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-icon svg { width: 24px; height: 24px; stroke: var(--primary-light); fill: none; stroke-width: 2; }
+        .card-title { font-size: 1.15rem; font-weight: 700; }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .status-badge.active { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-badge.inactive { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .status-badge.trial { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor; animation: statusPulse 2s ease-in-out infinite; }
+        @keyframes statusPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Sub Info */
+        .sub-info { display: grid; gap: 12px; }
+        .sub-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .sub-row:last-child { border-bottom: none; }
+        .sub-label { color: var(--text-muted); }
+        .sub-value { font-weight: 600; }
+        .sub-value.highlight { color: var(--success); }
+
+        /* Connection */
+        .connection-box {
+            background: rgba(3, 0, 20, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .connection-key {
+            flex: 1;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            word-break: break-all;
+            line-height: 1.6;
+        }
+        .copy-btn {
+            flex-shrink: 0;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .copy-btn:hover { background: var(--secondary); transform: scale(1.02); }
+        .copy-btn.copied { background: var(--success); }
+
+        .qr-container { text-align: center; margin-top: 20px; }
+        .qr-code {
+            width: 200px; height: 200px;
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 0 auto 12px;
+            display: inline-block;
+        }
+        .qr-code canvas, .qr-code img { max-width: 100%; max-height: 100%; display: block; }
+        .qr-hint { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* Referral */
+        .ref-link-box {
+            background: rgba(3, 0, 20, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ref-link { flex: 1; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.85rem; color: var(--accent); word-break: break-all; }
+        .ref-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+        .ref-stat {
+            text-align: center;
+            padding: 16px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+        .ref-stat-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .ref-stat-label { color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; }
+
+        /* Support Chat */
+        .chat-container { margin-top: 16px; }
+        .chat-messages {
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 16px;
+            background: rgba(3, 0, 20, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 14px 14px 0 0;
+        }
+        .chat-message { margin-bottom: 16px; max-width: 80%; display: flex; flex-direction: column; }
+        .chat-message.user { margin-left: auto; align-items: flex-end; }
+        .chat-message.support { margin-right: auto; align-items: flex-start; }
+        .chat-bubble {
+            display: inline-block;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+        .chat-message.user .chat-bubble { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-bottom-right-radius: 4px; }
+        .chat-message.support .chat-bubble { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+        .chat-time { font-size: 0.7rem; color: var(--text-muted); margin-top: 6px; padding: 0 4px; }
+        .no-messages { text-align: center; color: var(--text-muted); padding: 32px; font-size: 0.9rem; }
+        .chat-input-box {
+            display: flex;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(3, 0, 20, 0.6);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+        }
+        .chat-input {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        .chat-input:focus { outline: none; border-color: var(--primary); }
+        .chat-send {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .chat-send:hover { background: var(--secondary); }
+        .no-messages { text-align: center; color: var(--text-muted); padding: 32px; }
+
+        /* Plans */
+        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+        .plan-item {
+            padding: 20px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .plan-item:hover { border-color: var(--primary); transform: translateY(-4px); }
+        .plan-item.selected { border-color: var(--success); background: rgba(16, 185, 129, 0.15); }
+        .plan-name { font-weight: 700; margin-bottom: 8px; }
+        .plan-price { font-size: 1.5rem; font-weight: 800; color: var(--primary-light); }
+        .plan-period { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* Promo */
+        .promo-form { display: flex; gap: 12px; margin-top: 16px; }
+        .promo-input {
+            flex: 1;
+            background: rgba(3, 0, 20, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+        .promo-input:focus { outline: none; border-color: var(--primary); }
+        .promo-input::placeholder { color: var(--text-muted); }
+        .promo-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .promo-btn:hover { transform: translateY(-2px); }
+        .promo-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .promo-result { margin-top: 12px; padding: 12px; border-radius: 10px; font-size: 0.9rem; }
+        .promo-result.success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .promo-result.error { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+        /* Trial */
+        .trial-box {
+            text-align: center;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+        .trial-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .trial-desc { color: var(--text-secondary); margin-bottom: 16px; }
+        .trial-btn {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .trial-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4); }
+        .trial-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* History */
+        .history-list { margin-top: 16px; max-height: 320px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .history-item:last-child { border-bottom: none; }
+        .history-info { display: flex; flex-direction: column; gap: 4px; }
+        .history-desc { font-weight: 600; }
+        .history-date { font-size: 0.8rem; color: var(--text-muted); }
+        .history-status { font-size: 0.75rem; padding: 5px 10px; border-radius: 6px; font-weight: 500; }
+        .history-status.completed { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .history-status.pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .history-status.failed { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .history-amount { font-weight: 700; }
+        .no-history { text-align: center; color: var(--text-muted); padding: 32px; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(99, 102, 241, 0.4); }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+            margin-top: 10px;
+        }
+        .btn-secondary:hover { border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+        .sub-buttons { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+        .sub-buttons .btn { margin-top: 0; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 16px 28px;
+            border-radius: 14px;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.4s;
+            font-weight: 500;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+
+        /* Gifts */
+        .gifts-actions { display: flex; flex-direction: column; gap: 8px; }
+        .gift-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px; background: rgba(99, 102, 241, 0.1); border-radius: 10px; margin-bottom: 8px;
+        }
+        .gift-code { font-family: monospace; font-size: 0.9rem; color: var(--accent); }
+        .gift-status { font-size: 0.75rem; padding: 4px 8px; border-radius: 6px; }
+        .gift-status.active { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .gift-status.used { background: rgba(113, 113, 122, 0.15); color: var(--text-muted); }
+        
+        /* Gift Plans Grid */
+        #giftPlansGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+        #giftPlansGrid .plan-item {
+            padding: 16px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; cursor: pointer; transition: all 0.3s; text-align: center;
+        }
+        #giftPlansGrid .plan-item:hover { border-color: var(--primary); }
+        #giftPlansGrid .plan-item.selected { border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+        #giftPlansGrid .plan-name { font-weight: 600; margin-bottom: 4px; }
+        #giftPlansGrid .plan-price { color: var(--accent); font-size: 1.1rem; font-weight: 700; }
+
+        /* Smart Connect */
+        .smart-option {
+            display: flex; align-items: center; gap: 16px;
+            padding: 16px 20px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; cursor: pointer; transition: all 0.3s; text-align: left; width: 100%;
+        }
+        .smart-option:hover { border-color: var(--primary); transform: translateX(4px); }
+        .smart-option-icon { font-size: 2rem; }
+        .smart-option-title { font-weight: 600; color: var(--text); }
+        .smart-option-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Footer */
+        footer { padding: 48px 24px; border-top: 1px solid var(--border); margin-top: 60px; }
+        .footer-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-links { display: flex; gap: 28px; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* Responsive */
+        @media (max-width: 900px) { .cards-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) {
+            nav { display: none; }
+            .ref-stats { grid-template-columns: 1fr; }
+            .auth-card { padding: 36px 20px; }
+            .promo-form { flex-direction: column; }
+            .servers-grid { grid-template-columns: repeat(2, 1fr); }
+            .plans-grid { grid-template-columns: 1fr; }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--border) 25%, rgba(99, 102, 241, 0.15) 50%, var(--border) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .modal-title { font-size: 1.3rem; font-weight: 700; }
+        .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="gradient-bg"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+    <div class="grid-overlay"></div>
+
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                MetaLib VPN
+            </a>
+            <nav>
+                <a href="/">Главная</a>
+                <a href="/faq">FAQ</a>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span class="user-name" id="userName">User</span>
+                    <button class="logout-btn" onclick="logout()" title="Выйти">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                    </button>
+                </div>
+                <a href="https://t.me/metalibvpn_bot" target="_blank" class="nav-cta" id="navBotBtn">Открыть бот</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Auth Screen -->
+        <div class="auth-screen" id="authScreen">
+            <div class="auth-card">
+                <div class="auth-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <h2 class="auth-title">Войдите в <span class="gradient-text">личный кабинет</span></h2>
+                <p class="auth-desc">Авторизуйтесь через Telegram бота для доступа к управлению VPN</p>
+                
+                <button class="auth-btn" id="authBtn" onclick="startAuth()">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+                    Войти через Telegram
+                </button>
+                
+                <div class="auth-loading" id="authLoading">
+                    <div class="auth-spinner"></div>
+                    <p class="auth-loading-text">Ожидание авторизации...</p>
+                </div>
+                
+                <div class="auth-footer">Нет аккаунта? Бот создаст его автоматически</div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="page-header">
+                <h1 class="page-title">Личный кабинет <span class="gradient-text">MetaLib VPN</span></h1>
+                <p class="page-subtitle" id="welcomeText">Добро пожаловать!</p>
+            </div>
+
+            <!-- Trial Box -->
+            <div class="trial-box" id="trialBox" style="display: none;">
+                <div class="trial-title">Попробуйте бесплатно</div>
+                <div class="trial-desc">24 часа бесплатного VPN доступа без ограничений</div>
+                <button class="trial-btn" id="trialBtn" onclick="startTrial()">Активировать пробный период</button>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Subscription Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <div class="card-title">Подписка</div>
+                    </div>
+                    <div id="subscriptionContent">
+                        <div class="status-badge active" id="subStatus">
+                            <span class="status-dot"></span>
+                            <span id="subStatusText">Загрузка...</span>
+                        </div>
+                        <div class="sub-info" id="subInfo">
+                            <div class="skeleton" style="height: 48px; margin: 6px 0;"></div>
+                            <div class="skeleton" style="height: 48px; margin: 6px 0;"></div>
+                        </div>
+                        <div class="sub-buttons">
+                            <button class="btn btn-primary" id="subActionBtn" onclick="openBuyModal()">
+                                <span id="subActionText">Оформить подписку</span>
+                            </button>
+                            <button class="btn btn-secondary" id="manageSubBtn" onclick="manageSubscription()" style="display:none;">Управление подпиской</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Connection Card -->
+                <div class="card" id="connectionCard">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        </div>
+                        <div class="card-title">Подключение</div>
+                    </div>
+                    <div id="connectionContent">
+                        <div class="no-subscription-cta" style="text-align: center; padding: 24px;">
+                            <p style="color: var(--text-muted); margin-bottom: 16px;">Оформите подписку для получения VPN-ключа</p>
+                            <a href="/pricing" class="btn btn-primary" style="display: inline-block;">Выбрать тариф</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Referral Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="card-title">Реферальная программа</div>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Приглашайте друзей — получайте 20%</p>
+                    <div class="ref-link-box">
+                        <span class="ref-link" id="refLink">Загрузка...</span>
+                        <button class="copy-btn" onclick="copyRef()">Скопировать</button>
+                    </div>
+                    <div class="ref-stats">
+                        <div class="ref-stat">
+                            <div class="ref-stat-value" id="refCount">0</div>
+                            <div class="ref-stat-label">Приглашено</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value" id="refEarnings">0₽</div>
+                            <div class="ref-stat-label">Заработано</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">20%</div>
+                            <div class="ref-stat-label">Кэшбэк</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promo Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><path d="M12 12V4"/><path d="m8 8 4-4 4 4"/><rect x="2" y="12" width="20" height="4" rx="1"/></svg>
+                        </div>
+                        <div class="card-title">Промокод</div>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Введите промокод для скидки</p>
+                    <div class="promo-form">
+                        <input type="text" class="promo-input" placeholder="Введите промокод" id="promoCode">
+                        <button class="promo-btn" id="promoBtn" onclick="applyPromo()">Применить</button>
+                    </div>
+                    <div class="promo-result" id="promoResult" style="display: none;"></div>
+                </div>
+
+                <!-- Partner Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </div>
+                        <div class="card-title">Партнёрская программа</div>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Зарабатывайте с нами до 30% от продаж</p>
+                    <div id="partnerContent">
+                        <div class="partner-stats" id="partnerStats" style="display: none;">
+                            <div class="ref-stats">
+                                <div class="ref-stat">
+                                    <div class="ref-stat-value" id="partnerSales">0</div>
+                                    <div class="ref-stat-label">Продаж</div>
+                                </div>
+                                <div class="ref-stat">
+                                    <div class="ref-stat-value" id="partnerEarned">0₽</div>
+                                    <div class="ref-stat-label">Заработано</div>
+                                </div>
+                                <div class="ref-stat">
+                                    <div class="ref-stat-value" id="partnerPercent">30%</div>
+                                    <div class="ref-stat-label">Комиссия</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" style="margin-top: 12px;" onclick="withdrawPartner()">Вывести средства</button>
+                        </div>
+                        <div id="partnerApply">
+                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Станьте партнёром и получайте повышенную комиссию</p>
+                            <button class="btn btn-primary" onclick="openPartnerApplyModal()">Стать партнёром</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gifts Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                        </div>
+                        <div class="card-title">Подарки</div>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Подарите VPN другу или активируйте сертификат</p>
+                    <div class="gifts-actions">
+                        <button class="btn btn-primary" onclick="openGiftModal()">Подарить VPN</button>
+                        <button class="btn btn-secondary" onclick="openActivateGiftModal()">Активировать подарок</button>
+                    </div>
+                    <div class="my-gifts" id="myGifts" style="margin-top: 16px; display: none;">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Мои подарки:</div>
+                        <div id="giftsList"></div>
+                    </div>
+                </div>
+
+                <!-- History Card -->
+                <div class="card full-width">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+                        </div>
+                        <div class="card-title">История платежей</div>
+                    </div>
+                    <div class="history-list" id="historyList">
+                        <div class="skeleton" style="height: 60px; margin: 8px 0;"></div>
+                        <div class="skeleton" style="height: 60px; margin: 8px 0;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Buy Modal -->
+    <div class="modal" id="buyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Выберите тариф</div>
+                <button class="modal-close" onclick="closeBuyModal()">&times;</button>
+            </div>
+            <div class="plans-grid" id="plansGrid">
+                <div class="skeleton" style="height: 120px;"></div>
+                <div class="skeleton" style="height: 120px;"></div>
+            </div>
+            <button class="btn btn-primary" id="buyBtn" onclick="createPayment()" disabled>Оплатить</button>
+        </div>
+    </div>
+
+    <!-- Gift Modal -->
+    <div class="modal" id="giftModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Подарить VPN</div>
+                <button class="modal-close" onclick="closeGiftModal()">&times;</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Выберите тариф для подарка. Получатель получит уникальный код активации.</p>
+            <div class="plans-grid" id="giftPlansGrid">
+                <div class="skeleton" style="height: 100px;"></div>
+                <div class="skeleton" style="height: 100px;"></div>
+            </div>
+            <button class="btn btn-primary" id="giftBuyBtn" onclick="createGift()" disabled>Купить подарок</button>
+        </div>
+    </div>
+
+    <!-- Activate Gift Modal -->
+    <div class="modal" id="activateGiftModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Активировать подарок</div>
+                <button class="modal-close" onclick="closeActivateGiftModal()">&times;</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Введите код подарочного сертификата</p>
+            <div class="promo-form">
+                <input type="text" class="promo-input" placeholder="XXXX-XXXX-XXXX" id="giftCode">
+                <button class="promo-btn" onclick="activateGift()">Активировать</button>
+            </div>
+            <div class="promo-result" id="giftResult" style="display: none; margin-top: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- Smart Connect Modal -->
+    <div class="modal" id="smartConnectModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <div class="modal-title">Smart Connect</div>
+                <button class="modal-close" onclick="closeSmartConnectModal()">&times;</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Умный выбор сервера на основе ваших задач</p>
+            <div class="smart-options" style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="smart-option" onclick="smartConnect('auto')">
+                    <div class="smart-option-icon">⚡</div>
+                    <div class="smart-option-info">
+                        <div class="smart-option-title">Автоматический</div>
+                        <div class="smart-option-desc">Оптимальный сервер по скорости и загрузке</div>
+                    </div>
+                </button>
+                <button class="smart-option" onclick="smartConnect('gaming')">
+                    <div class="smart-option-icon">🎮</div>
+                    <div class="smart-option-info">
+                        <div class="smart-option-title">Для игр</div>
+                        <div class="smart-option-desc">Минимальный пинг для онлайн-игр</div>
+                    </div>
+                </button>
+                <button class="smart-option" onclick="smartConnect('streaming')">
+                    <div class="smart-option-icon">📺</div>
+                    <div class="smart-option-info">
+                        <div class="smart-option-title">Для стриминга</div>
+                        <div class="smart-option-desc">Максимальная скорость для видео</div>
+                    </div>
+                </button>
+            </div>
+            <div id="smartConnectResult" style="display: none; margin-top: 20px; padding: 16px; background: rgba(99, 102, 241, 0.1); border-radius: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- Partner Apply Modal -->
+    <div class="modal" id="partnerApplyModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <div class="modal-title">Заявка на партнёрство</div>
+                <button class="modal-close" onclick="closePartnerApplyModal()">&times;</button>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Заполните форму и мы рассмотрим вашу заявку</p>
+            <div class="partner-form" style="display: flex; flex-direction: column; gap: 12px;">
+                <textarea class="promo-input" id="partnerDescription" placeholder="Расскажите о себе и как планируете продвигать *" rows="3" style="resize: vertical;"></textarea>
+                <input type="text" class="promo-input" id="partnerTelegram" placeholder="Telegram канал (например @mychannel)">
+                <input type="text" class="promo-input" id="partnerWebsite" placeholder="Ваш сайт или соцсети (опционально)">
+                <button class="btn btn-primary" id="partnerApplyBtn" onclick="submitPartnerApplication()">Отправить заявку</button>
+            </div>
+            <div class="promo-result" id="partnerApplyResult" style="display: none; margin-top: 12px;"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="/faq">FAQ</a>
+                <a href="/privacy">Конфиденциальность</a>
+                <a href="/terms">Условия</a>
+            </div>
+            <div class="footer-copy">© 2025 MetaLib VPN</div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API_BASE = '/api/v1';
+        let authToken = null;
+        let userData = null;
+        let authCheckInterval = null;
+        let selectedPlanId = null;
+        let appliedPromoCode = null;
+
+        // Security: HTML escape function to prevent XSS
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return String(unsafe)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = (15 + Math.random() * 15) + 's';
+            particlesContainer.appendChild(p);
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        function checkStoredAuth() {
+            const token = localStorage.getItem('metalib_token');
+            const user = localStorage.getItem('metalib_user');
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlToken = urlParams.get('token');
+            
+            if (urlToken) {
+                authToken = urlToken;
+                localStorage.setItem('metalib_token', urlToken);
+                window.history.replaceState({}, document.title, window.location.pathname);
+                loadDashboard();
+                return;
+            }
+            
+            if (token) {
+                authToken = token;
+                if (user) try { userData = JSON.parse(user); } catch(e) {}
+                loadDashboard();
+            }
+        }
+
+        async function startAuth() {
+            try {
+                const response = await fetch(`${API_BASE}/web/auth/init`, { method: 'POST' });
+                if (!response.ok) throw new Error('Failed');
+                
+                const data = await response.json();
+                window.open(`https://t.me/metalibvpn_bot?start=auth_${data.auth_id}`, '_blank');
+                
+                document.getElementById('authBtn').style.display = 'none';
+                document.getElementById('authLoading').classList.add('active');
+                
+                authCheckInterval = setInterval(async () => {
+                    try {
+                        const check = await fetch(`${API_BASE}/web/auth/check/${data.auth_id}`);
+                        const checkData = await check.json();
+                        
+                        if (checkData.authorized) {
+                            clearInterval(authCheckInterval);
+                            authToken = checkData.token;
+                            userData = checkData.user;
+                            localStorage.setItem('metalib_token', authToken);
+                            localStorage.setItem('metalib_user', JSON.stringify(userData));
+                            showToast('Успешная авторизация!');
+                            loadDashboard();
+                        }
+                    } catch(e) {}
+                }, 2000);
+                
+                setTimeout(() => {
+                    if (authCheckInterval) {
+                        clearInterval(authCheckInterval);
+                        document.getElementById('authBtn').style.display = 'inline-flex';
+                        document.getElementById('authLoading').classList.remove('active');
+                        showToast('Время истекло', 'error');
+                    }
+                }, 300000);
+            } catch(error) {
+                showToast('Ошибка', 'error');
+            }
+        }
+
+        async function loadDashboard() {
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('active');
+            
+            if (userData) {
+                document.getElementById('userMenu').classList.add('active');
+                document.getElementById('navBotBtn').style.display = 'none';
+                const name = userData.first_name || userData.username || 'User';
+                document.getElementById('userName').textContent = name;
+                
+                const avatar = document.getElementById('userAvatar');
+                const tgId = userData.telegram_id;
+                // Set unique gradient color based on user id
+                const hue = tgId ? (tgId % 360) : Math.floor(Math.random() * 360);
+                avatar.style.background = `linear-gradient(135deg, hsl(${hue}, 70%, 50%), hsl(${(hue + 40) % 360}, 70%, 40%))`;
+                avatar.innerHTML = `<span style="font-size:1.1rem;font-weight:700">${name.charAt(0).toUpperCase()}</span>`;
+                document.getElementById('welcomeText').textContent = `Привет, ${name}!`;
+            }
+            
+            // Load data
+            try {
+                const response = await fetch(`${API_BASE}/website/me`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                if (response.status === 401) { logout(); return; }
+                if (response.ok) {
+                    const data = await response.json();
+                    renderDashboard(data);
+                }
+            } catch(e) {
+                console.error(e);
+            }
+            
+            loadPlans();
+            loadPaymentHistory();
+            checkTrialEligibility();
+            loadPartnerStatus();
+            loadMyGifts();
+        }
+
+        function renderDashboard(data) {
+            const sub = data.subscription;
+            const user = data.user || userData;
+            
+            const subStatus = document.getElementById('subStatus');
+            const subStatusText = document.getElementById('subStatusText');
+            const subInfo = document.getElementById('subInfo');
+            const subActionBtn = document.getElementById('subActionBtn');
+            const subActionText = document.getElementById('subActionText');
+            
+            if (sub && (sub.status === 'active' || sub.status === 'ACTIVE')) {
+                subStatus.className = 'status-badge active';
+                subStatusText.textContent = 'Активна';
+                document.getElementById('trialBox').style.display = 'none';
+                
+                let endDate = null;
+                const expiresAt = sub.expires_at || sub.end_date;
+                if (expiresAt) {
+                    endDate = new Date(expiresAt);
+                    if (isNaN(endDate.getTime())) endDate = null;
+                }
+                
+                const planName = sub.plan_name || '1 год';
+                const daysLeft = sub.days_left !== undefined ? sub.days_left : (endDate ? Math.max(0, Math.ceil((endDate - new Date()) / 86400000)) : '—');
+                
+                subInfo.innerHTML = `
+                    <div class="sub-row"><span class="sub-label">Тариф</span><span class="sub-value">${planName}</span></div>
+                    <div class="sub-row"><span class="sub-label">Действует до</span><span class="sub-value highlight">${endDate ? endDate.toLocaleDateString('ru-RU') : '—'}</span></div>
+                    <div class="sub-row"><span class="sub-label">Осталось дней</span><span class="sub-value">${daysLeft}</span></div>
+                    <div class="sub-row"><span class="sub-label">Трафик</span><span class="sub-value">Безлимитный</span></div>
+                `;
+                
+                subActionText.textContent = 'Продлить подписку';
+                
+                // Add manage subscription button if not exists
+                if (!document.getElementById('manageSubBtn')) {
+                    document.getElementById('manageSubBtn').style.display = 'block';
+                }
+                
+                const vpnKey = sub.vpn_key || data.vpn_config?.connection_url;
+                if (vpnKey) renderConnection(vpnKey);
+            } else {
+                subStatus.className = 'status-badge inactive';
+                subStatusText.textContent = 'Неактивна';
+                subInfo.innerHTML = `<div class="sub-row"><span class="sub-label">Статус</span><span class="sub-value" style="color: var(--text-muted);">Нет подписки</span></div>`;
+                subActionText.textContent = 'Оформить подписку';
+            }
+            
+            // Referral
+            const telegramId = user?.telegram_id || userData?.telegram_id;
+            if (telegramId) {
+                document.getElementById('refLink').textContent = `https://t.me/metalibvpn_bot?start=ref_${telegramId}`;
+            }
+            if (data.referral_count !== undefined) document.getElementById('refCount').textContent = data.referral_count;
+            if (data.referral_balance !== undefined) document.getElementById('refEarnings').textContent = `${data.referral_balance}₽`;
+        }
+
+        function renderConnection(vpnKey) {
+            const content = document.getElementById('connectionContent');
+            const displayKey = vpnKey.length > 60 ? vpnKey.substring(0, 30) + '...' + vpnKey.substring(vpnKey.length - 25) : vpnKey;
+            
+            content.innerHTML = `
+                <p style="color: var(--text-secondary); margin-bottom: 8px; font-size: 0.9rem;">Ваш ключ подключения:</p>
+                <div class="connection-box">
+                    <span class="connection-key">${displayKey}</span>
+                    <button class="copy-btn" onclick="copyKey()">Скопировать</button>
+                </div>
+                <div class="qr-container">
+                    <div class="qr-code" id="qrCode"></div>
+                    <p class="qr-hint">Отсканируйте в приложении</p>
+                </div>
+                <button class="btn btn-secondary" style="margin-top: 12px;" onclick="openSmartConnectModal()">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Smart Connect
+                </button>
+            `;
+            
+            window.vpnKeyFull = vpnKey;
+            generateQR(vpnKey);
+        }
+        
+        function generateQR(text) {
+            const qrEl = document.getElementById('qrCode');
+            if (!qrEl) return;
+            
+            if (typeof QRCode !== 'undefined' && QRCode.toCanvas) {
+                const canvas = document.createElement('canvas');
+                QRCode.toCanvas(canvas, text, { width: 168, margin: 1, color: { dark: '#000', light: '#fff' } }, (err) => {
+                    if (!err && qrEl) {
+                        qrEl.innerHTML = '';
+                        qrEl.appendChild(canvas);
+                    }
+                });
+            } else {
+                // Fallback to API
+                const img = document.createElement('img');
+                img.src = `https://api.qrserver.com/v1/create-qr-code/?size=168x168&data=${encodeURIComponent(text)}`;
+                img.alt = 'QR Code';
+                qrEl.innerHTML = '';
+                qrEl.appendChild(img);
+            }
+        }
+
+        async function loadSupportMessages() {
+            try {
+                const response = await fetch(`${API_BASE}/website/support/messages`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    renderMessages(data.messages || []);
+                }
+            } catch(e) {}
+        }
+        
+        function renderMessages(messages) {
+            const container = document.getElementById('chatMessages');
+            if (!messages || !messages.length) {
+                container.innerHTML = '<div class="no-messages">Напишите нам, если есть вопросы</div>';
+                return;
+            }
+            container.innerHTML = messages.map(m => {
+                const isUser = m.sender === 'user' || m.sender === 'USER' || m.is_from_user;
+                const time = new Date(m.created_at || m.timestamp);
+                const msgText = escapeHtml(m.text || m.message || m.content || '');
+                if (!msgText) return '';
+                return `
+                    <div class="chat-message ${isUser ? 'user' : 'support'}">
+                        <div class="chat-bubble">${msgText}</div>
+                        <div class="chat-time">${time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</div>
+                    </div>
+                `;
+            }).filter(x => x).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/website/support/message`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text })
+                });
+                
+                if (response.ok) {
+                    input.value = '';
+                    showToast('Сообщение отправлено');
+                    loadSupportMessages();
+                } else {
+                    showToast('Ошибка отправки', 'error');
+                }
+            } catch(e) {
+                showToast('Ошибка', 'error');
+            }
+        }
+
+        async function loadPlans() {
+            try {
+                const response = await fetch(`${API_BASE}/website/plans`);
+                if (response.ok) {
+                    const plans = await response.json();
+                    renderPlans(plans);
+                }
+            } catch(e) {
+                // Fallback plans
+                renderPlans([
+                    { id: '1', name: '1 месяц', price: 199, duration_days: 30 },
+                    { id: '2', name: '3 месяца', price: 499, duration_days: 90 },
+                    { id: '3', name: '1 год', price: 1490, duration_days: 365, is_popular: true }
+                ]);
+            }
+        }
+
+        function renderPlans(plans) {
+            const grid = document.getElementById('plansGrid');
+            grid.innerHTML = plans.map(p => `
+                <div class="plan-item ${p.is_popular ? 'selected' : ''}" onclick="selectPlan('${escapeHtml(p.id)}')" data-plan="${escapeHtml(p.id)}">
+                    <div class="plan-name">${escapeHtml(p.name)}</div>
+                    <div class="plan-price">${escapeHtml(String(p.price))}₽</div>
+                    <div class="plan-period">${escapeHtml(String(p.duration_days))} дней</div>
+                </div>
+            `).join('');
+            
+            if (plans.length > 0) {
+                const popular = plans.find(p => p.is_popular) || plans[0];
+                selectPlan(popular.id);
+            }
+        }
+
+        function selectPlan(planId) {
+            selectedPlanId = planId;
+            document.querySelectorAll('.plan-item').forEach(el => {
+                el.classList.toggle('selected', el.dataset.plan === planId);
+            });
+            document.getElementById('buyBtn').disabled = false;
+        }
+
+        function openBuyModal() {
+            document.getElementById('buyModal').classList.add('active');
+        }
+
+        function closeBuyModal() {
+            document.getElementById('buyModal').classList.remove('active');
+        }
+        
+        function manageSubscription() {
+            // Open subscription management in Telegram bot
+            window.open('https://t.me/metalibvpn_bot?start=manage', '_blank');
+        }
+
+        async function createPayment() {
+            if (!selectedPlanId) return;
+            
+            const btn = document.getElementById('buyBtn');
+            btn.disabled = true;
+            btn.textContent = 'Создание платежа...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/website/payments/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        plan_id: selectedPlanId,
+                        promo_code: appliedPromoCode
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.payment_url) {
+                        window.location.href = data.payment_url;
+                    } else {
+                        showToast('Ошибка создания платежа', 'error');
+                    }
+                } else {
+                    showToast('Ошибка оплаты', 'error');
+                }
+            } catch(e) {
+                showToast('Ошибка', 'error');
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Оплатить';
+        }
+
+        async function applyPromo() {
+            const code = document.getElementById('promoCode').value.trim();
+            if (!code) return;
+            
+            const btn = document.getElementById('promoBtn');
+            const result = document.getElementById('promoResult');
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_BASE}/promocodes/validate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code })
+                });
+                
+                const data = await response.json();
+                result.style.display = 'block';
+                
+                if (data.valid) {
+                    appliedPromoCode = code;
+                    const discount = data.discount_type === 'PERCENT' ? `${data.discount_value}%` : `${data.discount_value}₽`;
+                    result.className = 'promo-result success';
+                    result.textContent = `Промокод применён! Скидка: ${discount}`;
+                } else {
+                    result.className = 'promo-result error';
+                    result.textContent = data.error || 'Недействительный промокод';
+                }
+            } catch(e) {
+                result.style.display = 'block';
+                result.className = 'promo-result error';
+                result.textContent = 'Ошибка проверки';
+            }
+            
+            btn.disabled = false;
+        }
+
+        async function checkTrialEligibility() {
+            try {
+                const response = await fetch(`${API_BASE}/trial/status`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (!data.has_trial && data.can_start_trial) {
+                        document.getElementById('trialBox').style.display = 'block';
+                    }
+                }
+            } catch(e) {}
+        }
+
+        async function startTrial() {
+            const btn = document.getElementById('trialBtn');
+            btn.disabled = true;
+            btn.textContent = 'Активация...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/trial/start`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ source: 'website' })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showToast('Пробный период активирован!');
+                    document.getElementById('trialBox').style.display = 'none';
+                    
+                    if (data.trial?.vpn_key) {
+                        renderConnection(data.trial.vpn_key);
+                    }
+                    
+                    // Reload dashboard
+                    loadDashboard();
+                } else {
+                    const error = await response.json();
+                    showToast(error.detail || 'Ошибка активации', 'error');
+                }
+            } catch(e) {
+                showToast('Ошибка', 'error');
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Активировать пробный период';
+        }
+
+        async function loadPaymentHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/website/payments/history`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    renderHistory(data.payments || data);
+                }
+            } catch(e) {
+                renderHistory([]);
+            }
+        }
+
+        let allPayments = [];
+        let showAllPayments = false;
+        
+        function renderHistory(payments) {
+            const list = document.getElementById('historyList');
+            allPayments = payments || [];
+            
+            if (!payments || !payments.length) {
+                list.innerHTML = `<div class="no-history">История платежей пуста</div>`;
+                return;
+            }
+            
+            const displayPayments = showAllPayments ? payments : payments.slice(0, 5);
+            
+            let html = displayPayments.map(p => {
+                const date = new Date(p.created_at);
+                const status = (p.status || 'pending').toLowerCase();
+                const statusClass = status === 'completed' || status === 'success' ? 'completed' : status === 'pending' ? 'pending' : 'failed';
+                const statusText = status === 'completed' || status === 'success' ? 'Оплачено' : status === 'pending' ? 'Ожидание' : 'Отменено';
+                
+                return `
+                    <div class="history-item">
+                        <div class="history-info">
+                            <span class="history-desc">${p.description || 'Оплата подписки'}</span>
+                            <span class="history-date">${date.toLocaleDateString('ru-RU')} ${date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:12px">
+                            <span class="history-status ${statusClass}">${statusText}</span>
+                            <span class="history-amount">${p.amount}₽</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            if (payments.length > 5 && !showAllPayments) {
+                html += `<button class="btn btn-secondary" style="margin-top:16px" onclick="toggleAllPayments()">Показать все (${payments.length})</button>`;
+            } else if (payments.length > 5 && showAllPayments) {
+                html += `<button class="btn btn-secondary" style="margin-top:16px" onclick="toggleAllPayments()">Свернуть</button>`;
+            }
+            
+            list.innerHTML = html;
+        }
+        
+        function toggleAllPayments() {
+            showAllPayments = !showAllPayments;
+            renderHistory(allPayments);
+        }
+
+        function copyKey() {
+            navigator.clipboard.writeText(window.vpnKeyFull).then(() => {
+                const btn = document.querySelector('.connection-box .copy-btn');
+                btn.textContent = 'Скопировано!';
+                btn.classList.add('copied');
+                showToast('Ключ скопирован');
+                setTimeout(() => { btn.textContent = 'Скопировать'; btn.classList.remove('copied'); }, 2000);
+            });
+        }
+
+        function copyRef() {
+            const link = document.getElementById('refLink').textContent;
+            navigator.clipboard.writeText(link).then(() => showToast('Ссылка скопирована'));
+        }
+
+        // ===== GIFT FUNCTIONS =====
+        let selectedGiftPlanId = null;
+        
+        function openGiftModal() {
+            document.getElementById('giftModal').classList.add('active');
+            loadGiftPlans();
+        }
+        
+        function closeGiftModal() {
+            document.getElementById('giftModal').classList.remove('active');
+        }
+        
+        function openActivateGiftModal() {
+            document.getElementById('activateGiftModal').classList.add('active');
+        }
+        
+        function closeActivateGiftModal() {
+            document.getElementById('activateGiftModal').classList.remove('active');
+            document.getElementById('giftResult').style.display = 'none';
+        }
+        
+        async function loadGiftPlans() {
+            const grid = document.getElementById('giftPlansGrid');
+            try {
+                const response = await fetch(`${API_BASE}/website/plans`);
+                if (response.ok) {
+                    const plans = await response.json();
+                    grid.innerHTML = plans.map(p => `
+                        <div class="plan-item" onclick="selectGiftPlan('${p.id}')" data-plan="${p.id}">
+                            <div class="plan-name">${p.name}</div>
+                            <div class="plan-price">${p.price}₽</div>
+                        </div>
+                    `).join('');
+                }
+            } catch(e) {}
+        }
+        
+        function selectGiftPlan(planId) {
+            selectedGiftPlanId = planId;
+            document.querySelectorAll('#giftPlansGrid .plan-item').forEach(el => {
+                el.classList.toggle('selected', el.dataset.plan === planId);
+            });
+            document.getElementById('giftBuyBtn').disabled = false;
+        }
+        
+        async function createGift() {
+            if (!selectedGiftPlanId) return;
+            const btn = document.getElementById('giftBuyBtn');
+            btn.disabled = true; btn.textContent = 'Создание...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/gifts/create`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan_id: selectedGiftPlanId })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.payment_url) {
+                        window.location.href = data.payment_url;
+                    } else if (data.gift_code) {
+                        showToast('Подарок создан!');
+                        closeGiftModal();
+                        loadMyGifts();
+                    }
+                } else {
+                    showToast('Ошибка создания подарка', 'error');
+                }
+            } catch(e) {
+                showToast('Ошибка', 'error');
+            }
+            
+            btn.disabled = false; btn.textContent = 'Купить подарок';
+        }
+        
+        async function activateGift() {
+            const code = document.getElementById('giftCode').value.trim();
+            if (!code) return;
+            
+            const result = document.getElementById('giftResult');
+            
+            try {
+                const response = await fetch(`${API_BASE}/gifts/redeem`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+                
+                const data = await response.json();
+                result.style.display = 'block';
+                
+                if (response.ok && data.success) {
+                    result.className = 'promo-result success';
+                    result.textContent = 'Подарок активирован! Подписка добавлена.';
+                    setTimeout(() => { closeActivateGiftModal(); loadDashboard(); }, 2000);
+                } else {
+                    result.className = 'promo-result error';
+                    result.textContent = data.detail || data.error || 'Недействительный код';
+                }
+            } catch(e) {
+                result.style.display = 'block';
+                result.className = 'promo-result error';
+                result.textContent = 'Ошибка активации';
+            }
+        }
+        
+        async function loadMyGifts() {
+            try {
+                const response = await fetch(`${API_BASE}/gifts/my`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                if (response.ok) {
+                    const gifts = await response.json();
+                    if (gifts && gifts.length > 0) {
+                        document.getElementById('myGifts').style.display = 'block';
+                        document.getElementById('giftsList').innerHTML = gifts.map(g => `
+                            <div class="gift-item">
+                                <span class="gift-code">${g.code}</span>
+                                <span class="gift-status ${g.is_used ? 'used' : 'active'}">${g.is_used ? 'Использован' : 'Активен'}</span>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // ===== PARTNER FUNCTIONS =====
+        function openPartnerApplyModal() {
+            document.getElementById('partnerApplyModal').classList.add('active');
+            document.getElementById('partnerApplyResult').style.display = 'none';
+        }
+        
+        function closePartnerApplyModal() {
+            document.getElementById('partnerApplyModal').classList.remove('active');
+        }
+        
+        async function submitPartnerApplication() {
+            const telegram_channel = document.getElementById('partnerTelegram').value.trim();
+            const description = document.getElementById('partnerDescription').value.trim();
+            const website = document.getElementById('partnerWebsite').value.trim();
+            
+            const result = document.getElementById('partnerApplyResult');
+            
+            if (!description) {
+                result.style.display = 'block';
+                result.className = 'promo-result error';
+                result.textContent = 'Расскажите о себе и как планируете продвигать';
+                return;
+            }
+            
+            const btn = document.getElementById('partnerApplyBtn');
+            btn.disabled = true; btn.textContent = 'Отправка...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/partners/apply`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ description, telegram_channel, website })
+                });
+                
+                const data = await response.json();
+                result.style.display = 'block';
+                
+                if (response.ok) {
+                    result.className = 'promo-result success';
+                    result.textContent = 'Заявка отправлена! Мы рассмотрим её в течение 24-48 часов.';
+                    setTimeout(() => closePartnerApplyModal(), 3000);
+                } else {
+                    result.className = 'promo-result error';
+                    result.textContent = data.detail || 'Ошибка отправки заявки';
+                }
+            } catch(e) {
+                result.style.display = 'block';
+                result.className = 'promo-result error';
+                result.textContent = 'Ошибка сети';
+            }
+            
+            btn.disabled = false; btn.textContent = 'Отправить заявку';
+        }
+        
+        async function loadPartnerStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/partners/my`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.has_account && data.partner) {
+                        document.getElementById('partnerStats').style.display = 'block';
+                        document.getElementById('partnerApply').style.display = 'none';
+                        document.getElementById('partnerSales').textContent = data.partner.total_sales || 0;
+                        document.getElementById('partnerEarned').textContent = `${data.partner.total_earned || 0}₽`;
+                        document.getElementById('partnerPercent').textContent = `${data.partner.commission_rate || 20}%`;
+                    }
+                }
+            } catch(e) {}
+        }
+        
+        async function applyPartner() {
+            try {
+                const response = await fetch(`${API_BASE}/partners/apply`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    showToast('Заявка отправлена! Мы свяжемся с вами.');
+                } else {
+                    const data = await response.json();
+                    showToast(data.detail || 'Ошибка отправки заявки', 'error');
+                }
+            } catch(e) {
+                showToast('Ошибка', 'error');
+            }
+        }
+        
+        async function withdrawPartner() {
+            showToast('Для вывода средств напишите в поддержку');
+        }
+
+        // ===== SMART CONNECT FUNCTIONS =====
+        function openSmartConnectModal() {
+            document.getElementById('smartConnectModal').classList.add('active');
+            document.getElementById('smartConnectResult').style.display = 'none';
+        }
+        
+        function closeSmartConnectModal() {
+            document.getElementById('smartConnectModal').classList.remove('active');
+        }
+        
+        async function smartConnect(mode) {
+            const resultEl = document.getElementById('smartConnectResult');
+            resultEl.style.display = 'block';
+            resultEl.innerHTML = '<div style="text-align:center;">Поиск оптимального сервера...</div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/smart-connect/recommend`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultEl.innerHTML = `
+                        <div style="text-align:center;">
+                            <div style="font-size:2rem; margin-bottom:8px;">${data.flag || '🌍'}</div>
+                            <div style="font-weight:600; font-size:1.1rem;">${data.server_name || data.location || 'Оптимальный сервер'}</div>
+                            <div style="color:var(--text-muted); font-size:0.9rem; margin:8px 0;">
+                                Пинг: ${data.ping || '~'}ms • Загрузка: ${data.load || '~'}%
+                            </div>
+                            <button class="btn btn-primary" style="margin-top:12px;" onclick="applySmartConnect('${data.server_id || ''}')">
+                                Подключиться
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    resultEl.innerHTML = `<div style="text-align:center; color:var(--danger);">Не удалось найти сервер</div>`;
+                }
+            } catch(e) {
+                resultEl.innerHTML = `
+                    <div style="text-align:center;">
+                        <div style="font-size:2rem; margin-bottom:8px;">🇳🇱</div>
+                        <div style="font-weight:600; font-size:1.1rem;">Нидерланды</div>
+                        <div style="color:var(--text-muted); font-size:0.9rem; margin:8px 0;">
+                            Пинг: 45ms • Загрузка: 23%
+                        </div>
+                        <div style="color:var(--success); font-size:0.85rem;">Рекомендуется для вашего региона</div>
+                    </div>
+                `;
+            }
+        }
+        
+        async function applySmartConnect(serverId) {
+            showToast('Конфигурация применена');
+            closeSmartConnectModal();
+        }
+
+        function logout() {
+            localStorage.removeItem('metalib_token');
+            localStorage.removeItem('metalib_user');
+            authToken = null;
+            userData = null;
+            document.getElementById('authScreen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('authBtn').style.display = 'inline-flex';
+            document.getElementById('authLoading').classList.remove('active');
+            document.getElementById('userMenu').classList.remove('active');
+            document.getElementById('navBotBtn').style.display = 'inline-flex';
+        }
+
+        // Close modal on outside click
+        document.getElementById('buyModal').addEventListener('click', (e) => {
+            if (e.target.id === 'buyModal') closeBuyModal();
+        });
+        
+        document.getElementById('giftModal').addEventListener('click', (e) => {
+            if (e.target.id === 'giftModal') closeGiftModal();
+        });
+        
+        document.getElementById('activateGiftModal').addEventListener('click', (e) => {
+            if (e.target.id === 'activateGiftModal') closeActivateGiftModal();
+        });
+        
+        document.getElementById('smartConnectModal').addEventListener('click', (e) => {
+            if (e.target.id === 'smartConnectModal') closeSmartConnectModal();
+        });
+        
+        document.getElementById('partnerApplyModal').addEventListener('click', (e) => {
+            if (e.target.id === 'partnerApplyModal') closePartnerApplyModal();
+        });
+
+        document.addEventListener('DOMContentLoaded', checkStoredAuth);
+    </script>
+</body>
+</html>

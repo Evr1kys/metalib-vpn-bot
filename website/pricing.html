@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#030014">
+    <title>Тарифы — MetaLib VPN</title>
+    <meta name="description" content="Выберите подходящий тариф MetaLib VPN. Гибкие цены, безлимитный трафик, поддержка 24/7.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vpn.metalib.xyz/pricing">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M30 50 L45 65 L70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #030014;
+            --bg-secondary: #0f0a1f;
+            --surface: rgba(15, 10, 31, 0.8);
+            --border: rgba(99, 102, 241, 0.2);
+            --text: #f8fafc;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --glow: 0 0 60px rgba(99, 102, 241, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.3), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.2), transparent),
+                radial-gradient(ellipse 60% 40% at 0% 100%, rgba(6, 182, 212, 0.15), transparent);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+        .orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%); top: -250px; left: -150px; }
+        .orb-2 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%); bottom: -200px; right: -150px; animation-delay: -8s; }
+        .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent 70%); top: 50%; left: 50%; animation-delay: -16s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -40px) scale(1.08); }
+            66% { transform: translate(-30px, 30px) scale(0.95); }
+        }
+
+        .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        .particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: rgba(99, 102, 241, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 20s linear infinite;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            5% { opacity: 1; scale: 1; }
+            95% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px) scale(0.5); opacity: 0; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 24px;
+            backdrop-filter: blur(20px);
+            background: rgba(3, 0, 20, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-icon svg { width: 24px; height: 24px; stroke: white; }
+        .logo-text { font-size: 1.3rem; font-weight: 800; }
+        .logo-text span { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 10px 18px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+        nav a.active { color: var(--primary-light); background: rgba(99, 102, 241, 0.1); }
+        
+        .header-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .header-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4); }
+        .header-btn svg { width: 20px; height: 20px; }
+
+        /* Main Content */
+        main {
+            padding-top: 120px;
+            padding-bottom: 80px;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin-bottom: 80px;
+        }
+
+        .pricing-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 36px;
+            position: relative;
+            transition: all 0.4s;
+            overflow: hidden;
+        }
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .pricing-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--primary); 
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+        }
+        .pricing-card:hover::before { opacity: 1; }
+        
+        .pricing-card.popular {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            transform: scale(1.03);
+        }
+        .pricing-card.popular::before { opacity: 1; }
+
+        .popular-badge {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .plan-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .plan-price {
+            margin: 20px 0;
+            position: relative;
+        }
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--text), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+        .price-period {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-left: 4px;
+        }
+        .price-monthly {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        .price-save {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .plan-features {
+            margin: 28px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+        }
+        .feature svg {
+            width: 20px; height: 20px;
+            stroke: var(--success);
+            flex-shrink: 0;
+        }
+
+        .plan-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.3);
+            position: relative;
+        }
+        .plan-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 32px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Loading State */
+        .pricing-loading {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+        }
+        .pricing-loading .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Features Section */
+        .features-section {
+            margin-top: 40px;
+        }
+        .features-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: left;
+            transition: all 0.3s;
+        }
+        .feature-card:hover { border-color: var(--primary); transform: translateY(-4px); }
+        .feature-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .feature-icon svg {
+            width: 28px; height: 28px;
+            stroke: var(--primary-light);
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 80px;
+            text-align: center;
+        }
+        .faq-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .faq-section p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        .faq-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .faq-link:hover { color: var(--text); }
+        .faq-link svg { width: 20px; height: 20px; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            background: rgba(3, 0, 20, 0.6);
+        }
+        .footer-main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 24px 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+        }
+        .footer-brand {
+            max-width: 300px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .footer-logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-logo-icon svg { width: 24px; height: 24px; stroke: white; }
+        .footer-logo-text { font-size: 1.3rem; font-weight: 800; }
+        .footer-logo-text span { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .footer-column h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        .footer-column a:hover { color: var(--primary-light); }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .footer-social a {
+            width: 44px; height: 44px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        .footer-social a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .footer-social svg { width: 20px; height: 20px; }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding: 24px;
+        }
+        .footer-bottom-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .footer-legal {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-legal a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .footer-legal a:hover { color: var(--text-secondary); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .footer-main { grid-template-columns: 1fr 1fr; }
+            .pricing-card.popular { transform: scale(1); }
+        }
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .page-header h1 { font-size: 2.2rem; }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+            .footer-main { grid-template-columns: 1fr; text-align: center; }
+            .footer-brand { max-width: 100%; }
+            .footer-logo { justify-content: center; }
+            .footer-social { justify-content: center; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .footer-legal { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="gradient-bg"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+    <div class="grid-overlay"></div>
+
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <div class="logo-text">Meta<span>Lib</span></div>
+            </a>
+            <nav>
+                <a href="/">Главная</a>
+                <a href="/pricing" class="active">Тарифы</a>
+                <a href="/faq">FAQ</a>
+            </nav>
+            <a href="https://t.me/metalibvpn_bot?start=buy" class="header-btn" target="_blank">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+                Подключить
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>Выберите тариф</h1>
+                <p>Все тарифы включают безлимитный трафик, высокую скорость и круглосуточную поддержку</p>
+            </div>
+
+            <div class="pricing-grid" id="pricingGrid">
+                <div class="pricing-loading">
+                    <div class="spinner"></div>
+                    <p>Загрузка тарифов...</p>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <h2>Что входит в каждый тариф</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <h3>Высокая скорость</h3>
+                        <p>До 1 Гбит/с на всех серверах. Смотрите видео в 4K без буферизации</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h3>Безопасность</h3>
+                        <p>Современные протоколы VLESS + Reality. Никаких логов активности</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+                        </div>
+                        <h3>До 5 устройств</h3>
+                        <p>Подключайте телефон, планшет, компьютер — всё на одном тарифе</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <h3>Поддержка 24/7</h3>
+                        <p>Всегда готовы помочь в Telegram. Среднее время ответа — 5 минут</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>Остались вопросы?</h2>
+                <p>Посмотрите ответы на частые вопросы или напишите нам</p>
+                <a href="/faq" class="faq-link">
+                    Перейти в FAQ
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-main">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="footer-logo-text">Meta<span>Lib</span></div>
+                </a>
+                <p>Быстрый и надёжный VPN-сервис для России. Обходите блокировки, защищайте данные, оставайтесь анонимными.</p>
+                <div class="footer-social">
+                    <a href="https://t.me/metalibvpn_bot" target="_blank" title="Telegram Bot">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+                    </a>
+                    <a href="https://t.me/metalib_vpn" target="_blank" title="Telegram Channel">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Навигация</h4>
+                <ul>
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/pricing">Тарифы</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Помощь</h4>
+                <ul>
+                    <li><a href="https://t.me/metalibvpn_bot" target="_blank">Написать в бот</a></li>
+                    <li><a href="https://t.me/metalib_vpn" target="_blank">Telegram канал</a></li>
+                    <li><a href="/faq#setup">Инструкции</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Документы</h4>
+                <ul>
+                    <li><a href="/privacy">Конфиденциальность</a></li>
+                    <li><a href="/terms">Условия использования</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <div class="footer-copy">© 2024–2026 MetaLib VPN. Все права защищены.</div>
+                <div class="footer-legal">
+                    <a href="/privacy">Политика конфиденциальности</a>
+                    <a href="/terms">Пользовательское соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = (15 + Math.random() * 15) + 's';
+            particlesContainer.appendChild(p);
+        }
+
+        const API_BASE = '/api/v1';
+        
+        // Default plans (fallback)
+        const defaultPlans = [
+            { id: '1', name: '1 месяц', price: 199, duration_days: 30, is_popular: false, description: 'Попробуйте на месяц' },
+            { id: '2', name: '3 месяца', price: 499, duration_days: 90, is_popular: false, description: 'Экономия 17%' },
+            { id: '3', name: '1 год', price: 1490, duration_days: 365, is_popular: true, description: 'Лучшая цена' }
+        ];
+
+        async function loadPlans() {
+            try {
+                const response = await fetch(`${API_BASE}/website/plans`);
+                if (response.ok) {
+                    const plans = await response.json();
+                    renderPlans(plans.length > 0 ? plans : defaultPlans);
+                } else {
+                    renderPlans(defaultPlans);
+                }
+            } catch(e) {
+                console.error('Failed to load plans:', e);
+                renderPlans(defaultPlans);
+            }
+        }
+
+        function calculateSavings(plan, plans) {
+            // Find monthly plan for comparison
+            const monthlyPlan = plans.find(p => p.duration_days === 30);
+            if (!monthlyPlan || plan.duration_days <= 30) return null;
+            
+            const monthlyEquivalent = (monthlyPlan.price * plan.duration_days) / 30;
+            const savings = Math.round(((monthlyEquivalent - plan.price) / monthlyEquivalent) * 100);
+            return savings > 0 ? savings : null;
+        }
+
+        function renderPlans(plans) {
+            const grid = document.getElementById('pricingGrid');
+            
+            // Sort by duration
+            plans.sort((a, b) => a.duration_days - b.duration_days);
+            
+            grid.innerHTML = plans.map(plan => {
+                const monthlyPrice = Math.round(plan.price / (plan.duration_days / 30));
+                const isPopular = plan.is_popular || plan.is_featured || plan.duration_days === 365;
+                const savings = calculateSavings(plan, plans);
+                
+                let durationText = '';
+                if (plan.duration_days === 7) durationText = '/ неделя';
+                else if (plan.duration_days === 30) durationText = '/ месяц';
+                else if (plan.duration_days === 90) durationText = '/ 3 мес';
+                else if (plan.duration_days === 180) durationText = '/ 6 мес';
+                else if (plan.duration_days === 365) durationText = '/ год';
+                else durationText = `/ ${plan.duration_days} дн`;
+                
+                const checkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+                
+                // Use features from API or default
+                const features = plan.features && plan.features.length > 0 
+                    ? plan.features 
+                    : ['Безлимитный трафик', 'До 5 устройств', 'Скорость до 1 Гбит/с', 'Поддержка 24/7'];
+                
+                return `
+                    <div class="pricing-card ${isPopular ? 'popular' : ''}">
+                        ${isPopular ? '<div class="popular-badge">Популярный</div>' : ''}
+                        <div class="plan-name">${plan.name}</div>
+                        ${plan.description ? `<div class="plan-description">${plan.description}</div>` : ''}
+                        <div class="plan-price">
+                            <span class="price-amount">${plan.price.toLocaleString('ru-RU')}₽</span>
+                            <span class="price-period">${durationText}</span>
+                            ${plan.duration_days > 30 ? `<div class="price-monthly">${monthlyPrice}₽ / месяц</div>` : ''}
+                            ${savings ? `<div class="price-save">Экономия ${savings}%</div>` : ''}
+                        </div>
+                        <div class="plan-features">
+                            ${features.map(f => `<div class="feature">${checkIcon}${f}</div>`).join('')}
+                        </div>
+                        <a href="https://t.me/metalibvpn_bot?start=buy_${plan.id}" class="plan-btn" target="_blank">
+                            Выбрать тариф
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPlans);
+    </script>
+</body>
+</html>

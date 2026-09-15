@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#030014">
+    <title>Политика конфиденциальности — MetaLib VPN</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M30 50 L45 65 L70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --bg: #030014;
+            --surface: rgba(15, 10, 31, 0.8);
+            --border: rgba(99, 102, 241, 0.2);
+            --text: #f8fafc;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --glow: 0 0 60px rgba(99, 102, 241, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        .bg-animation {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.3), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.2), transparent);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+        .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(99, 102, 241, 0.35), transparent 70%); top: -200px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent 70%); bottom: -150px; right: -100px; animation-delay: -8s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, -30px) scale(1.05); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(3, 0, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow);
+        }
+        .logo-icon svg { width: 24px; height: 24px; stroke: white; fill: none; stroke-width: 2; }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .back-btn:hover { background: var(--surface); color: var(--text); border-color: var(--primary); }
+        .back-btn svg { width: 18px; height: 18px; }
+
+        main { padding: 120px 0 80px; }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .last-updated { color: var(--text-muted); margin-bottom: 40px; font-size: 0.95rem; }
+
+        .content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+        .content h2 { 
+            font-size: 1.4rem; 
+            font-weight: 700;
+            margin: 36px 0 16px; 
+            color: var(--primary-light); 
+        }
+        .content h2:first-child { margin-top: 0; }
+        .content p { color: var(--text-secondary); margin-bottom: 16px; }
+        .content ul { margin: 16px 0; padding-left: 24px; color: var(--text-secondary); }
+        .content li { margin-bottom: 12px; }
+        .content strong { color: var(--text); }
+
+        footer {
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+            background: rgba(3, 0, 20, 0.6);
+        }
+        .footer-inner { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 48px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-light); }
+        .footer-copy { color: var(--text-muted); font-size: 0.85rem; }
+        @media (max-width: 600px) {
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { justify-content: center; }
+        }
+
+        @media (max-width: 600px) {
+            .content { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="gradient-bg"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                MetaLib VPN
+            </a>
+            <a href="/" class="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                На главную
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Политика <span class="gradient-text">конфиденциальности</span></h1>
+            <p class="last-updated">Последнее обновление: 1 февраля 2026</p>
+
+            <div class="content">
+                <h2>1. Общие положения</h2>
+                <p>MetaLib VPN («мы», «наш», «сервис») уважает вашу конфиденциальность и стремится защитить персональные данные пользователей. Настоящая политика описывает, какие данные мы собираем и как их используем.</p>
+
+                <h2>2. Какие данные мы собираем</h2>
+                <p>Мы собираем минимум данных, необходимых для работы сервиса:</p>
+                <ul>
+                    <li><strong>Telegram ID</strong> — для идентификации аккаунта</li>
+                    <li><strong>Email</strong> — если вы его указали для восстановления</li>
+                    <li><strong>Информация об оплате</strong> — данные транзакций (не храним номера карт)</li>
+                    <li><strong>Техническая информация</strong> — тип устройства, версия приложения</li>
+                </ul>
+
+                <h2>3. Политика No-Logs</h2>
+                <p>Мы придерживаемся строгой политики отсутствия логов:</p>
+                <ul>
+                    <li>Мы <strong>НЕ</strong> храним историю посещённых сайтов</li>
+                    <li>Мы <strong>НЕ</strong> записываем IP-адреса подключений</li>
+                    <li>Мы <strong>НЕ</strong> анализируем ваш трафик</li>
+                    <li>Мы <strong>НЕ</strong> передаём данные третьим лицам</li>
+                </ul>
+
+                <h2>4. Как мы используем данные</h2>
+                <p>Собранные данные используются исключительно для:</p>
+                <ul>
+                    <li>Предоставления VPN-услуг</li>
+                    <li>Управления подпиской и платежами</li>
+                    <li>Технической поддержки</li>
+                    <li>Улучшения качества сервиса</li>
+                </ul>
+
+                <h2>5. Безопасность данных</h2>
+                <p>Мы применяем современные методы защиты:</p>
+                <ul>
+                    <li>Шифрование данных при передаче и хранении</li>
+                    <li>Регулярные аудиты безопасности</li>
+                    <li>Ограниченный доступ сотрудников к данным</li>
+                    <li>Серверы в надёжных дата-центрах</li>
+                </ul>
+
+                <h2>6. Удаление данных</h2>
+                <p>Вы можете запросить удаление всех ваших данных, написав в поддержку. Мы удалим информацию в течение 30 дней, за исключением данных, необходимых для выполнения юридических обязательств.</p>
+
+                <h2>7. Изменения политики</h2>
+                <p>Мы можем обновлять эту политику. При существенных изменениях мы уведомим вас через бота или на сайте. Продолжая использовать сервис, вы соглашаетесь с актуальной версией политики.</p>
+
+                <h2>8. Контакты</h2>
+                <p>По вопросам конфиденциальности обращайтесь: <a href="https://t.me/metalibvpn_bot" style="color: var(--primary-light);">@metalibvpn_bot</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="/">Главная</a>
+                <a href="/pricing">Тарифы</a>
+                <a href="/faq">FAQ</a>
+                <a href="/privacy">Конфиденциальность</a>
+                <a href="/terms">Условия</a>
+                <a href="https://t.me/metalibvpn_bot" target="_blank">Telegram</a>
+            </div>
+            <div class="footer-copy">© 2024–2026 MetaLib VPN. Все права защищены.</div>
+        </div>
+    </footer>
+</body>
+</html>

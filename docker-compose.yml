@@ -1,0 +1,172 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: metalib_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-metalib_vpn}
+      POSTGRES_USER: ${POSTGRES_USER:-metalib}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-your_secure_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - metalib_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-metalib}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: metalib_redis
+    command: redis-server --requirepass ${REDIS_PASSWORD:-your_redis_password}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - metalib_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: metalib_backend
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-metalib}:${POSTGRES_PASSWORD:-your_secure_password}@postgres:5432/${POSTGRES_DB:-metalib_vpn}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-your_redis_password}@redis:6379/0
+      SECRET_KEY: ${SECRET_KEY}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      PLATEGA_MERCHANT_ID: ${PLATEGA_MERCHANT_ID}
+      PLATEGA_SECRET_KEY: ${PLATEGA_SECRET_KEY}
+      BACKEND_URL: ${BACKEND_URL:-http://backend:8000}
+      VPN_AGENT_SECRET_KEY: ${VPN_AGENT_SECRET_KEY:-metalib-xray-secret-key-2024}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - metalib_network
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+
+  # Telegram Bot
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    container_name: metalib_bot
+    env_file:
+      - .env
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      BOT_API_TOKEN: ${BOT_API_TOKEN}
+      API_BASE_URL: http://backend:8000
+      REDIS_URL: redis://:${REDIS_PASSWORD:-your_redis_password}@redis:6379/1
+      TELEGRAM_USE_WEBHOOK: "false"
+    depends_on:
+      - backend
+      - redis
+    networks:
+      - metalib_network
+    restart: unless-stopped
+
+  # Celery Worker
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    container_name: metalib_worker
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-metalib}:${POSTGRES_PASSWORD:-your_secure_password}@postgres:5432/${POSTGRES_DB:-metalib_vpn}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-your_redis_password}@redis:6379/0
+      SECRET_KEY: ${SECRET_KEY}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+    depends_on:
+      - postgres
+      - redis
+      - backend
+    networks:
+      - metalib_network
+    restart: unless-stopped
+
+  # Celery Beat (scheduler)
+  beat:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    container_name: metalib_beat
+    command: celery -A worker.celery_app beat --loglevel=info
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-metalib}:${POSTGRES_PASSWORD:-your_secure_password}@postgres:5432/${POSTGRES_DB:-metalib_vpn}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-your_redis_password}@redis:6379/0
+      SECRET_KEY: ${SECRET_KEY}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - metalib_network
+    restart: unless-stopped
+
+  # Admin Panel
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: metalib_admin
+    ports:
+      - "3000:80"
+    networks:
+      - metalib_network
+    restart: unless-stopped
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: metalib_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - /var/www/admin:/var/www/admin:ro
+      - ./website:/var/www/website:ro
+    depends_on:
+      - backend
+    networks:
+      - metalib_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  metalib_network:
+    driver: bridge

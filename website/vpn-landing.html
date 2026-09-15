@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaLib VPN — Быстрый и безопасный VPN для России</title>
+    <meta name="description" content="MetaLib VPN — надёжный VPN-сервис для обхода блокировок. Быстрые серверы, безлимитный трафик, защита приватности.">
+    <meta name="keywords" content="VPN, ВПН, обход блокировок, VPN для России, быстрый VPN, безопасный VPN">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vpn.metalib.xyz/">
+    <meta property="og:title" content="MetaLib VPN — Быстрый и безопасный VPN">
+    <meta property="og:description" content="Надёжный VPN-сервис для обхода блокировок.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vpn.metalib.xyz/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--primary:#6366f1;--secondary:#0ea5e9;--dark:#0f172a;--gray:#64748b;--success:#10b981}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:"Inter",sans-serif;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;min-height:100vh}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        header{padding:20px 0;position:fixed;top:0;left:0;right:0;background:rgba(15,23,42,0.95);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid rgba(255,255,255,0.1)}
+        .header-content{display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:10px}
+        .logo span{font-size:1.8rem}
+        nav a{color:#fff;text-decoration:none;margin-left:30px;opacity:0.8;transition:opacity 0.3s}
+        nav a:hover{opacity:1}
+        .hero{padding:160px 0 100px;text-align:center}
+        .hero h1{font-size:3.5rem;font-weight:800;margin-bottom:20px;line-height:1.2}
+        .hero h1 span{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+        .hero p{font-size:1.25rem;color:var(--gray);max-width:600px;margin:0 auto 40px}
+        .cta-buttons{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+        .btn{padding:16px 32px;border-radius:12px;font-size:1rem;font-weight:600;text-decoration:none;transition:all 0.3s;display:inline-flex;align-items:center;gap:10px}
+        .btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;box-shadow:0 10px 40px rgba(99,102,241,0.3)}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(99,102,241,0.4)}
+        .btn-secondary{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2)}
+        .features{padding:80px 0}
+        .section-title{text-align:center;font-size:2.5rem;font-weight:700;margin-bottom:60px}
+        .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+        .feature-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:40px 30px;text-align:center;transition:all 0.3s}
+        .feature-card:hover{transform:translateY(-5px);background:rgba(255,255,255,0.08)}
+        .feature-icon{font-size:3rem;margin-bottom:20px}
+        .feature-card h3{font-size:1.25rem;margin-bottom:15px}
+        .feature-card p{color:var(--gray);line-height:1.6}
+        .pricing{padding:80px 0}
+        .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;max-width:900px;margin:0 auto}
+        .price-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:40px;text-align:center;position:relative}
+        .price-card.popular{border-color:var(--primary);background:rgba(99,102,241,0.1)}
+        .popular-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--secondary));padding:6px 20px;border-radius:20px;font-size:0.85rem;font-weight:600}
+        .price-card h3{font-size:1.5rem;margin-bottom:10px}
+        .price{font-size:3rem;font-weight:800;margin:20px 0}
+        .price span{font-size:1rem;color:var(--gray);font-weight:400}
+        .price-features{list-style:none;margin:30px 0;text-align:left}
+        .price-features li{padding:10px 0;color:var(--gray);display:flex;align-items:center;gap:10px}
+        .price-features li::before{content:"✓";color:var(--success);font-weight:bold}
+        .faq{padding:80px 0}
+        .faq-list{max-width:800px;margin:0 auto}
+        .faq-item{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;margin-bottom:15px;overflow:hidden}
+        .faq-question{padding:20px 25px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+        .faq-answer{padding:0 25px 20px;color:var(--gray);line-height:1.7;display:none}
+        .faq-item.active .faq-answer{display:block}
+        footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,0.1);color:var(--gray)}
+        @media(max-width:768px){.hero h1{font-size:2.2rem}nav{display:none}.price{font-size:2.5rem}}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo"><span>🛡️</span> MetaLib VPN</div>
+            <nav>
+                <a href="#features">Возможности</a>
+                <a href="#pricing">Тарифы</a>
+                <a href="#faq">FAQ</a>
+                <a href="https://t.me/MetaLibVPNBot">Telegram</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Безопасный интернет<br>с <span>MetaLib VPN</span></h1>
+            <p>Обходите блокировки, защищайте свои данные и наслаждайтесь быстрым интернетом без ограничений</p>
+            <div class="cta-buttons">
+                <a href="https://t.me/MetaLibVPNBot" class="btn btn-primary">📱 Подключить в Telegram</a>
+                <a href="#pricing" class="btn btn-secondary">Посмотреть тарифы</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Почему MetaLib VPN?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Высокая скорость</h3>
+                    <p>Серверы с пропускной способностью до 10 Гбит/с. Смотрите видео в 4K без буферизации.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Полная защита</h3>
+                    <p>Шифрование военного уровня. Ваши данные защищены от хакеров и слежки.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Обход блокировок</h3>
+                    <p>Доступ к любым сайтам и сервисам. YouTube, Instagram, Twitter и другие.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Все устройства</h3>
+                    <p>Работает на iPhone, Android, Windows, macOS. Одна подписка — все гаджеты.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚫</div>
+                    <h3>Без логов</h3>
+                    <p>Мы не храним историю ваших посещений. Полная анонимность в сети.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Поддержка 24/7</h3>
+                    <p>Быстрая помощь в Telegram. Ответим на любые вопросы в течение часа.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Выберите тариф</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Месяц</h3>
+                    <div class="price">299 ₽<span>/мес</span></div>
+                    <ul class="price-features">
+                        <li>Безлимитный трафик</li>
+                        <li>Скорость до 1 Гбит/с</li>
+                        <li>Все локации</li>
+                        <li>5 устройств</li>
+                        <li>Поддержка 24/7</li>
+                    </ul>
+                    <a href="https://t.me/MetaLibVPNBot" class="btn btn-secondary" style="width:100%">Подключить</a>
+                </div>
+                <div class="price-card popular">
+                    <span class="popular-badge">Популярный</span>
+                    <h3>Год</h3>
+                    <div class="price">1990 ₽<span>/год</span></div>
+                    <ul class="price-features">
+                        <li>Безлимитный трафик</li>
+                        <li>Скорость до 10 Гбит/с</li>
+                        <li>Все локации</li>
+                        <li>10 устройств</li>
+                        <li>Приоритетная поддержка</li>
+                        <li>Экономия 45%</li>
+                    </ul>
+                    <a href="https://t.me/MetaLibVPNBot" class="btn btn-primary" style="width:100%">Подключить</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Частые вопросы</h2>
+            <div class="faq-list">
+                <div class="faq-item active">
+                    <div class="faq-question">Как начать пользоваться? <span>+</span></div>
+                    <div class="faq-answer">Перейдите в наш Telegram-бот @MetaLibVPNBot, выберите тариф и оплатите. Ключ придёт автоматически. Просто импортируйте его в приложение.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Какие приложения использовать? <span>+</span></div>
+                    <div class="faq-answer">Android: v2rayNG (бесплатно в Google Play)<br>iPhone: Shadowrocket, FoXray, V2Box<br>Windows/Mac: v2rayN, Nekoray</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Это безопасно? <span>+</span></div>
+                    <div class="faq-answer">Да! Мы используем современный протокол VLESS с Reality — это самый надёжный способ шифрования. Ваш трафик невозможно прочитать или заблокировать.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Какие способы оплаты? <span>+</span></div>
+                    <div class="faq-answer">Банковские карты (Visa, Mastercard, МИР), СБП, а также криптовалюта.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025-2026 MetaLib VPN. Все права защищены.</p>
+            <p style="margin-top:10px">
+                <a href="https://t.me/MetaLibVPNBot" style="color:var(--primary)">Telegram-бот</a> · 
+                <a href="mailto:support@metalib.xyz" style="color:var(--primary)">Поддержка</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll(".faq-question").forEach(q => {
+            q.addEventListener("click", () => {
+                q.parentElement.classList.toggle("active");
+            });
+        });
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "MetaLib VPN",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Android, iOS, Windows, macOS",
+        "offers": {
+            "@type": "Offer",
+            "price": "299",
+            "priceCurrency": "RUB"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "1250"
+        }
+    }
+    </script>
+</body>
+</html>
