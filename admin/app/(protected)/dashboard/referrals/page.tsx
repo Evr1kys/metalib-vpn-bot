@@ -75,7 +75,7 @@ export default function ReferralsPage() {
           </button>
           <button
             onClick={() => toggleMutation.mutate()}
-            disabled={toggleMutation.isLoading}
+            disabled={toggleMutation.isPending}
             className={`px-6 py-3 rounded-xl flex items-center font-medium transition-colors ${
               isEnabled
                 ? 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
@@ -115,7 +115,7 @@ export default function ReferralsPage() {
                 />
                 <button
                   onClick={() => updateSettingsMutation.mutate({ bonus_days: bonusDays })}
-                  disabled={updateSettingsMutation.isLoading}
+                  disabled={updateSettingsMutation.isPending}
                   className="btn-gradient px-4 py-2 rounded-xl flex items-center"
                 >
                   <FiSave className="mr-2" />

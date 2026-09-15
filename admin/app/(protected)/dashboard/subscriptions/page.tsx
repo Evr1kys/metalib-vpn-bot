@@ -566,7 +566,7 @@ export default function SubscriptionsManagementPage() {
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={giveSubscription.isLoading || extendSubscription.isLoading || cancelSubscription.isLoading || sendNotification.isLoading}
+                disabled={giveSubscription.isPending || extendSubscription.isPending || cancelSubscription.isPending || sendNotification.isPending}
                 className={`px-6 py-2 rounded-xl font-medium transition ${
                   modalAction === 'cancel'
                     ? 'bg-red-500 hover:bg-red-600 text-white'

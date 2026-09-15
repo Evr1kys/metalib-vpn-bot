@@ -8,7 +8,7 @@ export default defineConfig({
   base: '/app/',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   server: {
@@ -27,10 +27,10 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          motion: ['framer-motion'],
-          state: ['zustand'],
+        manualChunks(id) {
+          if (id.includes('framer-motion')) return 'motion'
+          if (id.includes('zustand')) return 'state'
+          if (id.includes('react')) return 'vendor'
         },
       },
     },

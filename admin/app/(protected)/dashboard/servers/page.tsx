@@ -192,7 +192,7 @@ export default function ServersPage() {
               <div className="flex space-x-2">
                 <button
                   onClick={() => testConnectionMutation.mutate(server.id)}
-                  disabled={testConnectionMutation.isLoading}
+                  disabled={testConnectionMutation.isPending}
                   className="flex-1 px-3 py-2 rounded-lg bg-[#1a1a2e] border border-purple-500/20 text-gray-300 hover:text-white hover:bg-purple-500/10 transition-colors flex items-center justify-center"
                 >
                   <FiActivity className="mr-2" /> Проверить
@@ -356,9 +356,9 @@ function ServerModal({ server, onClose, onComplete }: any) {
             <button 
               type="submit" 
               className="flex-1 btn-gradient py-3 rounded-xl font-medium"
-              disabled={mutation.isLoading}
+              disabled={mutation.isPending}
             >
-              {mutation.isLoading ? 'Сохранение...' : (server ? 'Сохранить' : 'Создать')}
+              {mutation.isPending ? 'Сохранение...' : (server ? 'Сохранить' : 'Создать')}
             </button>
             <button 
               type="button" 

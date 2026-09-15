@@ -135,7 +135,7 @@ class ApiClient {
   }
 
   // Payments
-  async getPayments(params?: { skip?: number; limit?: number }) {
+  async getPayments(params?: { skip?: number; limit?: number; status?: string }) {
     const response = await this.client.get('/admin/payments', { params })
     return response.data
   }

@@ -1,5 +1,7 @@
 # MetaLib VPN Bot
 
+[![CI](https://github.com/Evr1kys/metalib-vpn-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/Evr1kys/metalib-vpn-bot/actions/workflows/ci.yml)
+
 Сервис управления VPN-подписками. Репозиторий содержит backend, Telegram-бот, административную панель, mini app, worker и агент для VPN-серверов.
 
 ## Состав проекта

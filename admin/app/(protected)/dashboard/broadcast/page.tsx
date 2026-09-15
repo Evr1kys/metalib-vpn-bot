@@ -145,7 +145,7 @@ export default function BroadcastPage() {
                             deleteMutation.mutate(item.id)
                           }
                         }}
-                        disabled={deleteMutation.isLoading}
+                        disabled={deleteMutation.isPending}
                         className="p-1.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"
                         title="Удалить рассылку"
                       >
@@ -269,7 +269,7 @@ export default function BroadcastPage() {
               <div className="flex space-x-3 pt-4">
                 <button
                   onClick={handlePreview}
-                  disabled={previewMutation.isLoading}
+                  disabled={previewMutation.isPending}
                   className="flex-1 px-4 py-3 rounded-xl bg-[#1a1a2e] border border-purple-500/20 text-gray-300 hover:text-white flex items-center justify-center transition-colors"
                 >
                   <FiEye className="mr-2" />
@@ -277,10 +277,10 @@ export default function BroadcastPage() {
                 </button>
                 <button
                   onClick={handleSend}
-                  disabled={sendMutation.isLoading || !message.trim()}
+                  disabled={sendMutation.isPending || !message.trim()}
                   className="flex-1 btn-gradient py-3 rounded-xl flex items-center justify-center disabled:opacity-50"
                 >
-                  {sendMutation.isLoading ? (
+                  {sendMutation.isPending ? (
                     <span>Отправка...</span>
                   ) : (
                     <>

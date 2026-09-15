@@ -132,11 +132,11 @@ function TextsTab() {
 
       <button
         onClick={() => mutation.mutate(formData)}
-        disabled={mutation.isLoading}
+        disabled={mutation.isPending}
         className="flex items-center px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 transition"
       >
         <FiSave className="mr-2" size={20} />
-        {mutation.isLoading ? 'Сохранение...' : 'Сохранить изменения'}
+        {mutation.isPending ? 'Сохранение...' : 'Сохранить изменения'}
       </button>
     </div>
   )

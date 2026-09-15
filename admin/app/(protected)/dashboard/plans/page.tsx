@@ -16,7 +16,7 @@ export default function PlansPage() {
   })
 
   const deleteMutation = useMutation({
-    mutationFn: (planId: string) => apiClient.deletePlan(planId),
+    mutationFn: (planId: number) => apiClient.deletePlan(planId),
     onSuccess: () => {
       toast.success('Тариф удален')
       refetch()
@@ -336,9 +336,9 @@ function PlanModal({ plan, onClose, onComplete }: any) {
             <button 
               type="submit" 
               className="flex-1 btn-gradient py-3 rounded-xl font-medium"
-              disabled={mutation.isLoading}
+              disabled={mutation.isPending}
             >
-              {mutation.isLoading ? 'Сохранение...' : (plan ? 'Сохранить' : 'Создать')}
+              {mutation.isPending ? 'Сохранение...' : (plan ? 'Сохранить' : 'Создать')}
             </button>
             <button 
               type="button" 
